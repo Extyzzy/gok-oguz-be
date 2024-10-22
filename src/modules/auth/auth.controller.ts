@@ -40,7 +40,6 @@ export class AuthController {
   @ApiBody({ type: LoginDto })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  @Version('1')
   async login(
     @CurrentUser() userCreds: Users,
   ): Promise<{ user: Users; accessToken: string }> {
@@ -75,13 +74,11 @@ export class AuthController {
   }
 
   @Post('authenticate')
-  @Version('1')
   async authenticate(@AuthToken() token: string) {
     return this.authService.authenticate(token);
   }
 
   @Post('sign-up')
-  @Version('1')
   @HttpCode(HttpStatus.OK)
   async register(@Body() registerDto: any) {
     try {
@@ -124,14 +121,12 @@ export class AuthController {
   }
 
   @Get('logout')
-  @Version('1')
   async logout(@CurrentUser() user: any, @AuthToken() token: string) {
     return this.authService.logout(user, token);
   }
 
   @UseGuards(ThrottlerGuard)
   @Get('check-email')
-  @Version('1')
   async checkEmail(@Query('email') email: string) {
     if (!email) {
       throw new HttpException('Email is required', HttpStatus.BAD_REQUEST);
@@ -144,7 +139,6 @@ export class AuthController {
 
   @UseGuards(ThrottlerGuard)
   @Put('change-password')
-  @Version('1')
   async changePassword(@Body() body: { id: number; password: string }) {
     if (!body?.id || !body?.password) {
       throw new Error('Missing required fields');
