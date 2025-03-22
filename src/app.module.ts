@@ -14,7 +14,7 @@ import { UsersModule } from './modules/users/users.module';
       url: process.env.POSTGRES_URL,
       connectTimeoutMS: 10000,
       synchronize: false,
-      logging: ['query', 'warn', 'error'],
+      // logging: ['query', 'warn', 'error'],
       autoLoadEntities: true,
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
     }),

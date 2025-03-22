@@ -9,15 +9,12 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-
     "typeorm": "node -r ts-node/register -r tsconfig-paths/register -r ./env.config ./node_modules/typeorm/cli -d ./ormconfig.js",
     "typeorm:schema:drop": "yarn typeorm schema:drop",
     "typeorm:migration:run": "yarn typeorm migration:run",
     "typeorm:migration:revert": "yarn typeorm migration:revert",
     "typeorm:seed:run": "yarn node -r ts-node/register -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed -n typeorm.config",
     "clean-migrations": "del /s /q ./db/migrations/*",
-
-
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -48,7 +45,7 @@
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "pg": "^8.13.0",
+    "pg": "^8.13.1",
     "reflect-metadata": "^0.1.14",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
@@ -76,7 +73,8 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.0.0",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack": "^5.96.1"
   },
   "jest": {
     "moduleFileExtensions": [

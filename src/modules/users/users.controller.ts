@@ -25,7 +25,9 @@ import { UsersService } from './users.service';
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {
+    console.log("users.controller.ts - UsersController{} - constructor()");
+  }
 
   @Get('/pagination')
   @Version('1')
@@ -34,6 +36,8 @@ export class UsersController {
     @Query('size', new DefaultValuePipe(100)) size: number,
   ) {
     try {
+          console.log("users.controller.ts - UsersController{} - findAllPagination()");
+
       const data = await this.usersService.findAllPagination(page, size);
       const total = await this.usersService.getTotal();
 
@@ -57,6 +61,10 @@ export class UsersController {
   @Post()
   @Version('1')
   createUser(@Body() body: Users) {
+
+    console.log("users.controller.ts - UsersController{} - createUser()");
+
+
     if (!body?.password || !body?.email) {
       throw new Error('Missing required fields');
     }
@@ -68,6 +76,8 @@ export class UsersController {
   @Version('1')
   findAll() {
     try {
+      console.log("users.controller.ts - UsersController{} - findAll()");
+
       return this.usersService.findAll();
     } catch (e) {
       console.error(e);
@@ -78,6 +88,8 @@ export class UsersController {
   @Version('1')
   update(@Body() data: Users) {
     try {
+      console.log("users.controller.ts - UsersController{} - update()");
+
       return this.usersService.update(data.id, data);
     } catch (e) {
       console.error(e);
@@ -88,6 +100,8 @@ export class UsersController {
   @Version('1')
   delete(@Query('id') id: number) {
     try {
+      console.log("users.controller.ts - UsersController{} - delete()");
+
       return this.usersService.delete(id);
     } catch (e) {
       console.error(e);
@@ -98,6 +112,8 @@ export class UsersController {
   @Version('1')
   deactivate(@Query('id') id: number) {
     try {
+      console.log("users.controller.ts - UsersController{} - deactivate()");
+
       return this.usersService.deactivate(id);
     } catch (e) {
       console.error(e);
