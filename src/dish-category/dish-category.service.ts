@@ -17,7 +17,7 @@ export class DishCategoryService {
 */
   constructor(
     @InjectRepository(DishCategory)
-    private readonly dishCategory: Repository<DishCategory>,
+    private readonly RepositoryDishCategory: Repository<DishCategory>,
   ){
     console.log("dish-category.service.ts - class DishCategoryService - constructor()");
   }
@@ -32,7 +32,7 @@ export class DishCategoryService {
     console.log("dish-category.service.ts - uploadImage()...");
     console.log("dish-category.service.ts - uploadImage() - categoryName, ro, ru, en: ", categoryName, ro, ru, en);
 
-    const newRecord = this.dishCategory.create({
+    const newRecord = this.RepositoryDishCategory.create({
       categoryName: categoryName,
       categoryImage: file.buffer,
       filename: file.originalname,
@@ -41,7 +41,7 @@ export class DishCategoryService {
       ru: ru,
       en: en
     });
-    return await this.dishCategory.save(newRecord);
+    return await this.RepositoryDishCategory.save(newRecord);
   }
 
 
@@ -50,7 +50,19 @@ export class DishCategoryService {
   }
 
   findOne(id: number) {
+    console.log("dish-category.service.ts - findOne()...");
+    console.log("dish-category.service.ts - findOne() - id: ", id);
+
     return `This action returns a #${id} dishCategory`;
+  }
+
+
+  async getImage(id: number): Promise<DishCategory | null> {
+
+    console.log("dish-category.service.ts - getImage()...");
+    console.log("dish-category.service.ts - getImage() - id: ", id);
+
+    return await this.RepositoryDishCategory.findOne({ where: { id } });
   }
 
   update(id: number, updateDishCategoryDto: UpdateDishCategoryDto) {

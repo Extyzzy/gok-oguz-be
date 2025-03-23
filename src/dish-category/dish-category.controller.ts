@@ -1,12 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res} from '@nestjs/common';
 import { DishCategoryService } from './dish-category.service';
 import { CreateDishCategoryDto } from './dto/create-dish-category.dto';
 import { UpdateDishCategoryDto } from './dto/update-dish-category.dto';
 
-import { UseInterceptors, UploadedFile, Res } from '@nestjs/common';
+import { UseInterceptors, UploadedFile/*, Res */} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 // import { DishCategoryService } from './dish-category.service';
-// import { Response } from 'express';
+import { Response } from 'express';
 import { Multer } from 'multer'; // 🔹 Импортируем Multer
 
 
@@ -45,9 +45,28 @@ export class DishCategoryController {
     return this.dishCategoryService.findAll();
   }
 
+/*
   @Get(':id')
   findOne(@Param('id') id: string) {
+    console.log("dish-category.controller.ts - findOne()...");
+    console.log("dish-category.controller.ts - findOne() - id: ", id);
     return this.dishCategoryService.findOne(+id);
+  }
+*/
+
+
+  @Get(':id')
+  async getFile(@Param('id') id: number, @Res() res: Response) {
+
+      console.log("dish-category.controller.ts - findOne()...");
+      console.log("dish-category.controller.ts - findOne() - id: ", id);
+
+    const image = await this.dishCategoryService.getImage(id);
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+    res.setHeader('Content-Type', image.mimetype);
+    res.send(image.categoryImage);
   }
 
   @Patch(':id')
