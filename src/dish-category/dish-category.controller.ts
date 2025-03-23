@@ -5,7 +5,6 @@ import { UpdateDishCategoryDto } from './dto/update-dish-category.dto';
 
 import { UseInterceptors, UploadedFile/*, Res */} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-// import { DishCategoryService } from './dish-category.service';
 import { Response } from 'express';
 import { Multer } from 'multer'; // 🔹 Импортируем Multer
 
@@ -15,13 +14,6 @@ export class DishCategoryController {
   constructor(private readonly dishCategoryService: DishCategoryService) {
     console.log("dish-category.controller.ts - class DishCategoryController - constructor()");
   }
-
-/*
-  @Post()
-  create(@Body() createDishCategoryDto: CreateDishCategoryDto) {
-    return this.dishCategoryService.create(createDishCategoryDto);
-  }
-*/
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -45,28 +37,81 @@ export class DishCategoryController {
     return this.dishCategoryService.findAll();
   }
 
-/*
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    console.log("dish-category.controller.ts - findOne()...");
-    console.log("dish-category.controller.ts - findOne() - id: ", id);
-    return this.dishCategoryService.findOne(+id);
-  }
-*/
-
-
   @Get(':id')
   async getFile(@Param('id') id: number, @Res() res: Response) {
 
-      console.log("dish-category.controller.ts - findOne()...");
-      console.log("dish-category.controller.ts - findOne() - id: ", id);
+      console.log("dish-category.controller.ts - getFile()...");
+      console.log("dish-category.controller.ts - getFile() - id: ", id);
 
     const image = await this.dishCategoryService.getImage(id);
     if (!image) {
       return res.status(404).json({ message: 'Image not found' });
     }
     res.setHeader('Content-Type', image.mimetype);
+    // res.send({aa:image.categoryImage, d:image.categoryName});
     res.send(image.categoryImage);
+    // res.send(image);
+  }
+
+  @Get('imname/:id')
+  async getFile2(@Param('id') id: number, @Res() res: Response) {
+
+    console.log("dish-category.controller.ts - getFile2()...");
+    console.log("dish-category.controller.ts - getFile2() - id: ", id);
+
+    const image = await this.dishCategoryService.getImage(id);
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+    res.setHeader('Content-Type', image.mimetype);
+    res.send({image:image.categoryImage, name:image.categoryName});
+    // res.send(image);
+  }
+
+  @Get('name/:id')
+  async getFile3(@Param('id') id: number, @Res() res: Response) {
+
+    console.log("dish-category.controller.ts - getFile3()...");
+    console.log("dish-category.controller.ts - getFile3() - id: ", id);
+
+    const image = await this.dishCategoryService.getImage(id);
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+    res.setHeader('Content-Type', image.mimetype);
+    res.send(image.categoryName);
+    // res.send(image);
+  }
+
+
+  @Get(':name/:lang')
+  async getFile4(@Param('name') name: string, @Param('lang') lang: string, @Res() res: Response) {
+
+    console.log("dish-category.controller.ts - getFile4()...");
+    console.log("dish-category.controller.ts - getFile4() - name, lang: ", name, lang);
+
+    const image = await this.dishCategoryService.getImage2(name);
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+
+
+    console.log("dish-category.controller.ts - getFile4() - image: ", image);
+
+
+    res.setHeader('Content-Type', image.mimetype);
+
+    if (lang === 'ru')
+      res.send(image.ru);
+     else if (lang === 'ro')
+      res.send(image.ro);
+     else if (lang === 'en')
+      res.send(image.en);
+     else
+      res.send("");
+
+    // res.send(image.categoryName);
+    // res.send(image);
   }
 
   @Patch(':id')

@@ -65,6 +65,14 @@ export class DishCategoryService {
     return await this.RepositoryDishCategory.findOne({ where: { id } });
   }
 
+  async getImage2(name: string): Promise<DishCategory | null> {
+
+    console.log("dish-category.service.ts - getImage2()...");
+    console.log("dish-category.service.ts - getImage2() - name: ", name);
+
+    return await this.RepositoryDishCategory.findOne({ where:  {categoryName: name} });
+  }
+
   update(id: number, updateDishCategoryDto: UpdateDishCategoryDto) {
     return `This action updates a #${id} dishCategory`;
   }
