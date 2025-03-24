@@ -173,4 +173,29 @@ export class DishCategoryService {
   remove(id: number) {
     return `This action removes a #${id} dishCategory`;
   }
+
+  async deleteRecordByName(name: string): Promise<{ message: string }> {
+    console.log("dish-category.service.ts - deleteRecordByName() - name:", name);
+
+    const deleteResult = await this.RepositoryDishCategory.delete({ categoryName: name });
+
+    if (deleteResult.affected === 0) {
+      return { message: "Запись не найдена" };
+    }
+
+    return { message: `Запись с name ${name} удалена` };
+  }
+
+  async deleteRecordById(id: number): Promise<{ message: string }> {
+    console.log("dish-category.service.ts - deleteRecordBy() - id:", id);
+
+    const deleteResult = await this.RepositoryDishCategory.delete(id);
+
+    if (deleteResult.affected === 0) {
+      return { message: "Запись не найдена" };
+    }
+
+    return { message: `Запись с id ${id} удалена` };
+  }
+
 }

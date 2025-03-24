@@ -41,7 +41,7 @@ export class DishCategoryController {
   }
   //----------------------------
 
-  @Get(':id')
+  @Get('imagefromid/:id')
   async getFile(@Param('id') id: number, @Res() res: Response) {
 
       console.log("dish-category.controller.ts - @Get(':id')...");
@@ -74,11 +74,11 @@ export class DishCategoryController {
   }
   //---------------------------------------------------------------------------
 
-  @Get('name/:id')
-  async getFile3(@Param('id') id: number, @Res() res: Response) {
+  @Get('namefromid/:id')
+  async nameFromId(@Param('id') id: number, @Res() res: Response) {
 
-    console.log("dish-category.controller.ts - @Get('name/:id')...");
-    console.log("dish-category.controller.ts - getFile3() - id: ", id);
+    console.log("dish-category.controller.ts - @Get('namefromid/:id')...");
+    console.log("dish-category.controller.ts - nameFromId() - id: ", id);
 
     const image = await this.dishCategoryService.getImage(id);
     if (!image) {
@@ -177,7 +177,7 @@ export class DishCategoryController {
         break;
       }
     }
-    
+
 
       console.log("dish-category.controller.ts - getLangFromName() - ret: ", ret);
 
@@ -199,9 +199,11 @@ export class DishCategoryController {
   }
   //---------------------------------------------------------------------------
 
-  @Get('names/names/names')
+  //Получить все названия
+  @Get('allCategoryNames')
   async getAllCategoryNames(@Res() res: Response){
-    console.log("dish-category.controller.ts - @Get('names')...");
+    console.log("dish-category.controller.ts - @Get('allCategoryNames')...");
+    console.log("dish-category.controller.ts - getAllCategoryNames()...");
 
     const categoryNames = await this.dishCategoryService.getAllCategoryNames();
 
@@ -246,7 +248,7 @@ export class DishCategoryController {
   */
 
 
-  @Patch(':id/image')
+  @Patch('image/:id')
   @UseInterceptors(FileInterceptor('file'))
   async updateImage(
     @Param('id') id: number,
@@ -260,7 +262,7 @@ export class DishCategoryController {
   }
   //----------------------------
 
-  @Patch(':id')
+  @Patch('all/:id')
   @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: number,
@@ -284,10 +286,16 @@ export class DishCategoryController {
 
   //--- Delete ---
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dishCategoryService.remove(+id);
+
+  @Delete('deletebyname/:name')
+  async deleteRecordByName(@Param('name') name: string) {
+    return await this.dishCategoryService.deleteRecordByName(name);
   }
   //----------------------------
+
+  @Delete('deletebyid/:id')
+  async deleteRecordById(@Param('id') id: number) {
+    return await this.dishCategoryService.deleteRecordById(id);
+  }
 
 }
