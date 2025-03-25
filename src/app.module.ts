@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+
 import { DishModule } from './dish/dish.module';
 import { DishCategoryModule } from './dish-category/dish-category.module';
 

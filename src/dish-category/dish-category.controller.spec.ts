@@ -89,11 +89,9 @@ describe('dish-category.controller', () => {
             redirect: jest.fn(),                  // mock for redirect
         } as any;  // Типизируем как `any`, чтобы избежать ошибок типов
 
-        console.log("KT - 1");
-
         console.log("test(ImageFromName)...");
 
-        /*const image =*/ await controller.getImageFromName(name, res);
+        /*const image =*/ await controller.getImageByName(name, res);
 
         if (res === undefined) {
             console.log("res === undefined");

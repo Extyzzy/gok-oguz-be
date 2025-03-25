@@ -1,12 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res} from '@nestjs/common';
 import { DishCategoryService } from './dish-category.service';
-import { CreateDishCategoryDto } from './dto/create-dish-category.dto';
-import { UpdateDishCategoryDto } from './dto/update-dish-category.dto';
 
-import { UseInterceptors, UploadedFile/*, Res */} from '@nestjs/common';
+import { UseInterceptors, UploadedFile} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import { Multer } from 'multer'; // 🔹 Импортируем Multer
+import { Multer } from 'multer';
 
 
 @Controller('dish-category')
@@ -19,17 +17,19 @@ export class DishCategoryController {
   //создать
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Multer.File,
-                   @Body('categoryName') categoryName: string,
+  async create(
+    @UploadedFile() file: Multer.File,
+    @Body('categoryName') categoryName: string,
 
-                   @Body('ro') ro: string,
-                   @Body('ru') ru: string,
-                   @Body('en') en: string) {
+    @Body('ro') ro: string,
+    @Body('ru') ru: string,
+    @Body('en') en: string
+  ) {
 
-    console.log("dish-category.controller.ts - uploadFile()...");
-    console.log("dish-category.controller.ts - uploadFile() - categoryName, ro, ru, en: ", categoryName, ro, ru, en);
+    console.log("dish-category.controller.ts - create()...");
+    console.log("dish-category.controller.ts - create() - categoryName, ro, ru, en: ", categoryName, ro, ru, en);
 
-    const image = await this.dishCategoryService.uploadImage(file, categoryName, ro, ru, en);
+    const image = await this.dishCategoryService.create(file, categoryName, ro, ru, en);
     return { id: image.id, filename: image.filename };
   }
 
@@ -72,9 +72,7 @@ export class DishCategoryController {
       return res.status(404).json({ message: 'Image not found' });
     }
     res.setHeader('Content-Type', image.mimetype);
-    // res.send({aa:image.categoryImage, d:image.categoryName});
     res.send(image.categoryImage);
-    // res.send(image);
   }
   //----------------------------
 

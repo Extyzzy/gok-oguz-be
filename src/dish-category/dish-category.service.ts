@@ -1,10 +1,8 @@
 import { Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateDishCategoryDto } from './dto/create-dish-category.dto';
-import { UpdateDishCategoryDto } from './dto/update-dish-category.dto';
 import { Repository } from 'typeorm';
 import { DishCategory } from './entities/dish-category.entity';
-import { Multer } from 'multer'; // 🔹 Импортируем Multer
+import { Multer } from 'multer';
 
 
 @Injectable()
@@ -24,15 +22,17 @@ export class DishCategoryService {
   }
   //---------------------------------------------------------------------------
 
-  async uploadImage(file: Multer.File,
-                    categoryName: string,
+  async create(
+    file: Multer.File,
+    categoryName: string,
 
-                    ro: string,
-                    ru: string,
-                    en: string): Promise<DishCategory> {
+    ro: string,
+    ru: string,
+    en: string
+  ): Promise<DishCategory> {
 
-    console.log("dish-category.service.ts - uploadImage()...");
-    console.log("dish-category.service.ts - uploadImage() - categoryName, ro, ru, en: ", categoryName, ro, ru, en);
+    console.log("dish-category.service.ts - create()...");
+    console.log("dish-category.service.ts - create() - categoryName, ro, ru, en: ", categoryName, ro, ru, en);
 
     const newRecord = this.RepositoryDishCategory.create({
       categoryName: categoryName,
@@ -136,13 +136,14 @@ export class DishCategoryService {
   //---------------------------------------------------------------------------
 
   async update(
-                id: number,
-                file: Multer.File,
-                categoryName: string,
+    id: number,
+    file: Multer.File,
+    categoryName: string,
 
-                ro: string,
-                ru: string,
-                en: string): Promise<DishCategory | null> {
+    ro: string,
+    ru: string,
+    en: string
+  ): Promise<DishCategory | null> {
 
     console.log("dish-category.service.ts - update()...");
     console.log("dish-category.service.ts - update() - id:", id);
@@ -175,7 +176,8 @@ export class DishCategoryService {
 
     ro: string,
     ru: string,
-    en: string): Promise<DishCategory | null> {
+    en: string
+  ): Promise<DishCategory | null> {
 
     console.log("dish-category.service.ts - patchLangsById()...");
     // console.log("dish-category.service.ts - patchLangsById() - id:", id);
@@ -202,7 +204,6 @@ export class DishCategoryService {
     return await this.RepositoryDishCategory.save(category);
   }
   //---------------------------------------------------------------------------
-
 
   remove(id: number) {
     return `This action removes a #${id} dishCategory`;
