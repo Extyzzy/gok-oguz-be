@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable, Param, UploadedFile } from '@nestjs/common';
 // import { CreateDishDto } from './dto/create-dish.dto';
 import { UpdateDishDto } from './dto/update-dish.dto';
 import { Multer } from 'multer';
@@ -14,7 +14,7 @@ export class DishService {
     @InjectRepository(Dish)
     private readonly RepositoryDish: Repository<Dish>,
   ){
-    console.log("dish.service.ts - class DishService - constructor()");
+    // console.log("dish.service.ts - class DishService - constructor()");
   }
   //---------------------------------------------------------------------------
 
@@ -91,7 +91,8 @@ export class DishService {
 
   async getAllNames()
   {
-    return await this.RepositoryDish.find({ select: ['name'] }) ?? [];
+    // return await this.RepositoryDish.find({ select: ['name'] }) ?? [];
+    return await this.RepositoryDish.find({ select: ['name', 'id'] }) ?? [];
   }
   //----------------------------------------------------------------------------
 
@@ -140,4 +141,140 @@ export class DishService {
     return `This action removes a #${id} dish`;
   }
 */
+
+
+  //--- patch ---
+  async updateById(
+    id: number,
+    name: string,
+
+    nameRo: string,
+    nameRu: string,
+    nameEn: string,
+
+    descriptionRo: string,
+    descriptionRu: string,
+    descriptionEn: string,
+
+    weighDish: number,
+    costDish: number,
+    categoryDish: string,
+
+    file: Multer.File
+  )
+  {
+    const record = await this.RepositoryDish.findOne({ where: { id } });
+    if (!record) {
+      console.log("запись не найдена!");
+      return null;
+    }
+
+    // Обновляем данные
+    // category.categoryImage = file.buffer;
+    // category.filename = file.originalname;
+    // category.mimetype = file.mimetype;
+    record.name = name;
+
+    record.nameRo = nameRo;
+    record.nameRu = nameRu;
+    record.nameEn = nameEn;
+
+    record.descriptionRo = descriptionRo;
+    record.descriptionRu = descriptionRu;
+    record.descriptionEn = descriptionEn;
+
+    record.weighDish = weighDish;
+    record.costDish = costDish;
+    record.categoryDish = categoryDish;
+
+    record.imageDish = file.buffer;
+    record.imageFileName = file.originalname;
+    record.imageMimeType = file.mimetype;
+
+    // Сохраняем изменения
+    return await this.RepositoryDish.save(record);
+  }
+  //---------------------------------------------------------------------------
+
+  async updateByName(
+    name: string,
+
+    nameRo: string,
+    nameRu: string,
+    nameEn: string,
+
+    descriptionRo: string,
+    descriptionRu: string,
+    descriptionEn: string,
+
+    weighDish: number,
+    costDish: number,
+    categoryDish: string,
+
+    file: Multer.File
+  )
+  {
+    const record = await this.RepositoryDish.findOne({ where: { name } });
+    if (!record) {
+      console.log("запись не найдена!");
+      return null;
+    }
+
+    // Обновляем данные
+    // category.categoryImage = file.buffer;
+    // category.filename = file.originalname;
+    // category.mimetype = file.mimetype;
+    // record.name = name;
+
+    record.nameRo = nameRo;
+    record.nameRu = nameRu;
+    record.nameEn = nameEn;
+
+    record.descriptionRo = descriptionRo;
+    record.descriptionRu = descriptionRu;
+    record.descriptionEn = descriptionEn;
+
+    record.weighDish = weighDish;
+    record.costDish = costDish;
+    record.categoryDish = categoryDish;
+
+    record.imageDish = file.buffer;
+    record.imageFileName = file.originalname;
+    record.imageMimeType = file.mimetype;
+
+    // Сохраняем изменения
+    return await this.RepositoryDish.save(record);
+  }
+  //---------------------------------------------------------------------------
+
+  //--- Delete ---
+  async deleteRecordById(id: number): Promise<{ message: string }> {
+
+    console.log("dish-category.service.ts - deleteRecordById() - id:", id);
+
+    const deleteResult = await this.RepositoryDish.delete(id);
+
+    if (deleteResult.affected === 0) {
+      return { message: "Запись не найдена" };
+    }
+
+    return { message: `Запись с id: ${id}, удалена` };
+  }
+  //---------------------------------------------------------------------------
+
+  async deleteRecordByName(name: string): Promise<{ message: string }> {
+
+    console.log("dish-category.service.ts - deleteRecordByName() - name:", name);
+
+    const deleteResult = await this.RepositoryDish.delete({ name });
+
+    if (deleteResult.affected === 0) {
+      return { message: "Запись не найдена" };
+    }
+
+    return { message: `Запись с name: ${name}, удалена` };
+  }
+  //---------------------------------------------------------------------------
+
+
 }

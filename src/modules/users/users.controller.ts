@@ -26,7 +26,7 @@ export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
   constructor(private readonly usersService: UsersService) {
-    console.log("users.controller.ts - UsersController{} - constructor()");
+    // console.log("users.controller.ts - UsersController{} - constructor()");
   }
 
   @Get('/pagination')

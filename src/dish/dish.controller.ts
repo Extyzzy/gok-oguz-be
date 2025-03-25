@@ -42,7 +42,6 @@ export class DishController {
   }
   //----------------------------------------------------------------------------
 
-
   //--- Get ---
   //получить запись по id
   @Get('recordbyid/:id')
@@ -200,4 +199,129 @@ export class DishController {
     return this.dishService.remove(+id);
   }
 */
+
+  //--- Patch ---
+  //Изменить всю запись по id
+  @Patch('recordbyid/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  async updateRecordById(
+    @Param('id') id: number,
+    @Body('name') name: string,
+
+    @Body('nameRo') nameRo: string,
+    @Body('nameRu') nameRu: string,
+    @Body('nameEn') nameEn: string,
+
+    @Body('descriptionRo') descriptionRo: string,
+    @Body('descriptionRu') descriptionRu: string,
+    @Body('descriptionEn') descriptionEn: string,
+
+    @Body('weighDish') weighDish: number,
+    @Body('costDish') costDish: number,
+    @Body('categoryDish') categoryDish: string,
+
+    @UploadedFile() file: Multer.File
+  ) {
+
+    console.log("dish.controller.ts - @Patch('recordbyid/:id')...");
+    console.log(`dish.controller.ts - updateRecordById() - id: ${id}`);
+
+    const updated = await this.dishService.updateById(
+      id,
+      name,
+
+      nameRo,
+      nameRu,
+      nameEn,
+
+      descriptionRo,
+      descriptionRu,
+      descriptionEn,
+
+      weighDish,
+      costDish,
+      categoryDish,
+
+      file
+      );
+    if (!updated) {
+      return { message: 'запись не найдена' };
+    }
+    return { message: 'запись обновлена!', id: updated.id };
+  }
+  //----------------------------------------------------------------------------
+
+  //Изменить всю запись по id
+  @Patch('recordbyname/:name')
+  @UseInterceptors(FileInterceptor('file'))
+  async updateRecordByName(
+    @Param('name') name: string,
+    // @Body('name') name: string,
+
+    @Body('nameRo') nameRo: string,
+    @Body('nameRu') nameRu: string,
+    @Body('nameEn') nameEn: string,
+
+    @Body('descriptionRo') descriptionRo: string,
+    @Body('descriptionRu') descriptionRu: string,
+    @Body('descriptionEn') descriptionEn: string,
+
+    @Body('weighDish') weighDish: number,
+    @Body('costDish') costDish: number,
+    @Body('categoryDish') categoryDish: string,
+
+    @UploadedFile() file: Multer.File
+  ) {
+
+    console.log("dish.controller.ts - @Patch('recordbyname/:name')...");
+    console.log(`dish.controller.ts - updateRecordByName() - name: ${name}`);
+
+    const updated = await this.dishService.updateByName(
+      name,
+
+      nameRo,
+      nameRu,
+      nameEn,
+
+      descriptionRo,
+      descriptionRu,
+      descriptionEn,
+
+      weighDish,
+      costDish,
+      categoryDish,
+
+      file
+    );
+
+    if (!updated) {
+      return { message: 'запись не найдена' };
+    }
+
+    return { message: 'запись обновлена!', id: updated.id };
+  }
+  //----------------------------------------------------------------------------
+
+  //--- Delete ---
+  //удалить запись по id
+  @Delete('recordbyid/:id')
+  async deleteRecordById(@Param('id') id: number) {
+
+    console.log("dish.controller.ts - @Delete('recordbyid/:id')...");
+    console.log(`dish.controller.ts - deleteRecordById() - id: ${id}`);
+
+    return await this.dishService.deleteRecordById(id);
+  }
+  //---------------------------------------------------------------------------
+
+  //удалить запись по названию
+  @Delete('recordbyname/:name')
+  async deleteRecordByName(@Param('name') name: string) {
+
+    console.log("dish.controller.ts - @Delete('recordbyname/:name')...");
+    console.log(`dish.controller.ts - deleteRecordByName() - name: ${name}`);
+
+    return await this.dishService.deleteRecordByName(name);
+  }
+  //---------------------------------------------------------------------------
 }

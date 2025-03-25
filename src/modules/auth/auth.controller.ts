@@ -40,7 +40,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
   ) {
-                console.log("auth.controller.ts - AuthController{} - constructor()");
+                // console.log("auth.controller.ts - AuthController{} - constructor()");
   }
 
   @ApiBody({ type: LoginDto })

@@ -10,7 +10,7 @@ import { Multer } from 'multer';
 @Controller('dish-category')
 export class DishCategoryController {
   constructor(private readonly dishCategoryService: DishCategoryService) {
-    console.log("dish-category.controller.ts - class DishCategoryController - constructor()");
+    // console.log("dish-category.controller.ts - class DishCategoryController - constructor()");
   }
 
   //--- Post ---
@@ -269,8 +269,8 @@ export class DishCategoryController {
   }
   //----------------------------
 
-  //изменить все по id
-  @Patch('allbyid/:id')
+  //изменить запись по id
+  @Patch('recordbyid/:id')
   @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: number,
@@ -291,6 +291,31 @@ export class DishCategoryController {
     return { message: 'Изображение обновлено', id: updatedCategory.id };
   }
   //----------------------------
+
+  //изменить запись по названию
+  @Patch('recordbyname/:name')
+  @UseInterceptors(FileInterceptor('file'))
+  async updateByName(
+    @Param('name') categoryName: string,
+
+    @UploadedFile() file: Multer.File,
+
+    @Body('ro') ro: string,
+    @Body('ru') ru: string,
+    @Body('en') en: string
+  ) {
+
+    console.log("dish-category.controller.ts - @Patch('recordbyname/:name')...");
+    console.log("dish-category.controller.ts - updateByName() - categoryName, ro, ru, en: ", categoryName, ro, ru, en);
+
+    const updatedCategory = await this.dishCategoryService.updateByName(categoryName,file, ro, ru, en);
+    if (!updatedCategory) {
+      return { message: 'Категория не найдена' };
+    }
+    return { message: 'Изображение обновлено', id: updatedCategory.id };
+  }
+  //----------------------------
+
 
   //изменить названия категорий для всех языков по id
   @Patch('langsbyid/:id')
@@ -321,12 +346,13 @@ export class DishCategoryController {
   async deleteRecordByName(@Param('name') name: string) {
     return await this.dishCategoryService.deleteRecordByName(name);
   }
-  //----------------------------
+  //---------------------------------------------------------------------------
 
   //удалить запись по id
   @Delete('deletebyid/:id')
   async deleteRecordById(@Param('id') id: number) {
     return await this.dishCategoryService.deleteRecordById(id);
   }
+  //---------------------------------------------------------------------------
 
 }

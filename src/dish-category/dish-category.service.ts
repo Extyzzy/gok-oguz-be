@@ -18,7 +18,7 @@ export class DishCategoryService {
     @InjectRepository(DishCategory)
     private readonly RepositoryDishCategory: Repository<DishCategory>,
   ){
-    console.log("dish-category.service.ts - class DishCategoryService - constructor()");
+    // console.log("dish-category.service.ts - class DishCategoryService - constructor()");
   }
   //---------------------------------------------------------------------------
 
@@ -171,6 +171,40 @@ export class DishCategoryService {
   }
   //---------------------------------------------------------------------------
 
+  async updateByName(
+    categoryName: string,
+
+    file: Multer.File,
+
+    ro: string,
+    ru: string,
+    en: string
+  ): Promise<DishCategory | null> {
+
+    console.log("dish-category.service.ts - updateByName()...");
+    console.log("dish-category.service.ts - updateByName() - categoryName, ro, ru, en: ", categoryName, ro, ru, en);
+
+    // Находим запись по названию
+    const category = await this.RepositoryDishCategory.findOne({ where: { categoryName } });
+    if (!category) {
+      console.log("Категория не найдена!");
+      return null;
+    }
+
+    // Обновляем данные
+    category.categoryImage = file.buffer;
+    category.filename = file.originalname;
+    category.mimetype = file.mimetype;
+
+    category.ro = ro;
+    category.ru = ru;
+    category.en = en;
+
+    // Сохраняем изменения
+    return await this.RepositoryDishCategory.save(category);
+  }
+  //---------------------------------------------------------------------------
+
   async patchLangsById(
     id: number,
 
@@ -222,7 +256,7 @@ export class DishCategoryService {
   }
 
   async deleteRecordById(id: number): Promise<{ message: string }> {
-    console.log("dish-category.service.ts - deleteRecordBy() - id:", id);
+    console.log("dish-category.service.ts - deleteRecordById() - id:", id);
 
     const deleteResult = await this.RepositoryDishCategory.delete(id);
 
