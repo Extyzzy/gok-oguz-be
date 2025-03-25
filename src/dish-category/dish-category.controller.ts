@@ -16,7 +16,7 @@ export class DishCategoryController {
   }
 
   //--- Post ---
-
+  //создать
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Multer.File,
@@ -35,19 +35,39 @@ export class DishCategoryController {
 
   //--- Get ---
 
+/*
   @Get()
   findAll() {
     return this.dishCategoryService.findAll();
   }
   //----------------------------
+*/
 
-  @Get('imagefromid/:id')
-  async getFile(@Param('id') id: number, @Res() res: Response) {
+  //получить все по id
+  @Get('allbyid/:id')
+  async getAllById(@Param('id') id: number, @Res() res: Response) {
 
-      console.log("dish-category.controller.ts - @Get(':id')...");
-      console.log("dish-category.controller.ts - getFile() - id: ", id);
+    console.log("dish-category.controller.ts - @Get('allbyid/:id')...");
+    console.log("dish-category.controller.ts - allById() - id: ", id);
 
-    const image = await this.dishCategoryService.getImage(id);
+    const image = await this.dishCategoryService.getImageById(id);
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+    // res.setHeader('Content-Type', image.mimetype);
+    res.send({image: image.categoryImage, name: image.categoryName, ro: image.ro, ru: image.ru, en: image.en}); //, ro: image.ro, image.ru, image.en);
+    // res.send(image);
+  }
+  //---------------------------------------------------------------------------
+
+  //получить изображение по id
+  @Get('imagebyid/:id')
+  async getImageById(@Param('id') id: number, @Res() res: Response) {
+
+      console.log("dish-category.controller.ts -@Get('imagebyid/:id')...");
+      console.log("dish-category.controller.ts - getImageById - id: ", id);
+
+    const image = await this.dishCategoryService.getImageById(id);
     if (!image) {
       return res.status(404).json({ message: 'Image not found' });
     }
@@ -58,29 +78,31 @@ export class DishCategoryController {
   }
   //----------------------------
 
-  @Get('imname/:id')
-  async getFile2(@Param('id') id: number, @Res() res: Response) {
+  //получить изображение и название по id
+  @Get('imageandnamebyid/:id') // @Get('imname/:id')??????
+  async getImageAndNameById(@Param('id') id: number, @Res() res: Response) {
 
-    console.log("dish-category.controller.ts - @Get('imname/:id')...");
-    console.log("dish-category.controller.ts - getFile2() - id: ", id);
+    console.log("dish-category.controller.ts - @Get('imageandnamebyid/:id')...");
+    console.log("dish-category.controller.ts - imageandnamebyid - id: ", id);
 
-    const image = await this.dishCategoryService.getImage(id);
+    const image = await this.dishCategoryService.getImageById(id);
     if (!image) {
       return res.status(404).json({ message: 'Image not found' });
     }
     res.setHeader('Content-Type', image.mimetype);
-    res.send({image:image.categoryImage, name:image.categoryName});
+    res.send({image: image.categoryImage, name :image.categoryName});
     // res.send(image);
   }
   //---------------------------------------------------------------------------
 
-  @Get('namefromid/:id')
-  async nameFromId(@Param('id') id: number, @Res() res: Response) {
+  //получить название по id
+  @Get('namebyid/:id')
+  async getNameById(@Param('id') id: number, @Res() res: Response) {
 
     console.log("dish-category.controller.ts - @Get('namefromid/:id')...");
     console.log("dish-category.controller.ts - nameFromId() - id: ", id);
 
-    const image = await this.dishCategoryService.getImage(id);
+    const image = await this.dishCategoryService.getImageById(id);
     if (!image) {
       return res.status(404).json({ message: 'Image not found' });
     }
@@ -90,24 +112,9 @@ export class DishCategoryController {
   }
   //---------------------------------------------------------------------------
 
-  @Get('all/:id')
-  async getFile5(@Param('id') id: number, @Res() res: Response) {
-
-    console.log("dish-category.controller.ts - @Get('all/:id')...");
-    console.log("dish-category.controller.ts - getFile5() - id: ", id);
-
-    const image = await this.dishCategoryService.getImage(id);
-    if (!image) {
-      return res.status(404).json({ message: 'Image not found' });
-    }
-    // res.setHeader('Content-Type', image.mimetype);
-    res.send({name: image.categoryName, ro: image.ro, ru: image.ru, en: image.en}); //, ro: image.ro, image.ru, image.en);
-    // res.send(image);
-  }
-  //---------------------------------------------------------------------------
-
-  @Get('langsfromname/nameis/:name')
-  async getFile4(@Param('name') name: string, /*@Param('lang') lang: string, */@Res() res: Response) {
+  //получить языки по названию
+  @Get('langsbyname/nameis/:name')
+  async getLangsByName(@Param('name') name: string, /*@Param('lang') lang: string, */@Res() res: Response) {
 
     console.log("dish-category.controller.ts - @Get('langfromname/nameis/:name')...");
     console.log("dish-category.controller.ts - getFile4() - name: ", name/*, lang*/);
@@ -146,8 +153,9 @@ export class DishCategoryController {
   }
   //---------------------------------------------------------------------------
 
-  @Get('langfromname/:nameis/:langis')
-  async getLangFromName(@Param('nameis') name: string, @Param('langis') lang: string, /*@Param('lang') lang: string, */@Res() res: Response) {
+  //получить язык по названию и языку
+  @Get('langbynameandlang/:nameis/:langis')
+  async getLangByNameAndLang(@Param('nameis') name: string, @Param('langis') lang: string, /*@Param('lang') lang: string, */@Res() res: Response) {
 
     console.log("dish-category.controller.ts - @Get('langfromname/:nameis/:langis')...");
     console.log("dish-category.controller.ts - getLangFromName() - name, lang: ", name, lang);
@@ -200,8 +208,8 @@ export class DishCategoryController {
   //---------------------------------------------------------------------------
 
   //Получить все названия
-  @Get('allCategoryNames')
-  async getAllCategoryNames(@Res() res: Response){
+  @Get('allNames')
+  async getAllNames(@Res() res: Response){
     console.log("dish-category.controller.ts - @Get('allCategoryNames')...");
     console.log("dish-category.controller.ts - getAllCategoryNames()...");
 
@@ -220,11 +228,12 @@ export class DishCategoryController {
   }
   //---------------------------------------------------------------------------
 
-  @Get('imagefromname/nameis/:name')
-  async getImageFromName(@Param('name') name: string, @Res() res: Response)
+  //Получить изображение по названию
+  @Get('imagebyname/:name')
+  async getImageByName(@Param('name') name: string, @Res() res: Response)
   {
-    console.log("dish-category.controller.ts - @Get('imagefromname/:name')...");
-    console.log("dish-category.controller.ts - getImageFromName() - name: ", name);
+    console.log("dish-category.controller.ts - @Get('imagebyname/:name')...");
+    console.log("dish-category.controller.ts - getImageByName() - name: ", name);
 
     const oneRecord = await this.dishCategoryService.oneRecord(name);
     if (!oneRecord) {
@@ -247,8 +256,8 @@ export class DishCategoryController {
     }
   */
 
-
-  @Patch('image/:id')
+  //изменить изображение по id
+  @Patch('imagebyid/:id')
   @UseInterceptors(FileInterceptor('file'))
   async updateImage(
     @Param('id') id: number,
@@ -262,7 +271,8 @@ export class DishCategoryController {
   }
   //----------------------------
 
-  @Patch('all/:id')
+  //изменить все по id
+  @Patch('allbyid/:id')
   @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: number,
@@ -284,15 +294,38 @@ export class DishCategoryController {
   }
   //----------------------------
 
+  //изменить названия категорий для всех языков по id
+  @Patch('langsbyid/:id')
+  @UseInterceptors(FileInterceptor('file'))
+  async patchLangsById(
+    @Param('id') id: number,
+    // @UploadedFile() file: Multer.File,
+    // @Body('categoryName') categoryName: string,
+
+    @Body('ro') ro: string,
+    @Body('ru') ru: string,
+    @Body('en') en: string
+  ) {
+
+    console.log("dish-category.controller.ts - patchLangsById() - id, ro, ru, en: ", id, ro, ru, en);
+
+    const updatedCategory = await this.dishCategoryService.patchLangsById(id, ro, ru, en);
+    if (!updatedCategory) {
+      return { message: 'Категория не найдена' };
+    }
+    return { message: 'описания обновлены', id: updatedCategory.id };
+  }
+  //----------------------------
+
   //--- Delete ---
-
-
+  //удалить запись по названию
   @Delete('deletebyname/:name')
   async deleteRecordByName(@Param('name') name: string) {
     return await this.dishCategoryService.deleteRecordByName(name);
   }
   //----------------------------
 
+  //удалить запись по id
   @Delete('deletebyid/:id')
   async deleteRecordById(@Param('id') id: number) {
     return await this.dishCategoryService.deleteRecordById(id);

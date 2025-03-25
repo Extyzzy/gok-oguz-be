@@ -60,10 +60,10 @@ export class DishCategoryService {
   }
   //---------------------------------------------------------------------------
 
-  async getImage(id: number): Promise<DishCategory | null> {
+  async getImageById(id: number): Promise<DishCategory | null> {
 
-    console.log("dish-category.service.ts - getImage()...");
-    console.log("dish-category.service.ts - getImage() - id: ", id);
+    console.log("dish-category.service.ts - getImageById()...");
+    console.log("dish-category.service.ts - getImageById() - id: ", id);
 
     return await this.RepositoryDishCategory.findOne({ where: { id } });
   }
@@ -168,6 +168,40 @@ export class DishCategoryService {
     // Сохраняем изменения
     return await this.RepositoryDishCategory.save(category);
   }
+  //---------------------------------------------------------------------------
+
+  async patchLangsById(
+    id: number,
+
+    ro: string,
+    ru: string,
+    en: string): Promise<DishCategory | null> {
+
+    console.log("dish-category.service.ts - patchLangsById()...");
+    // console.log("dish-category.service.ts - patchLangsById() - id:", id);
+    console.log("dish-category.service.ts - patchLangsById() - id, ro, ru, en: ", id, ro, ru, en);
+
+    // Находим запись по ID
+    const category = await this.RepositoryDishCategory.findOne({ where: { id } });
+    if (!category) {
+      console.log("Категория не найдена!");
+      return null;
+    }
+
+    // Обновляем данные
+    // category.categoryImage = file.buffer;
+    // category.filename = file.originalname;
+    // category.mimetype = file.mimetype;
+
+    // category.categoryName = categoryName;
+    category.ro = ro;
+    category.ru = ru;
+    category.en = en;
+
+    // Сохраняем изменения
+    return await this.RepositoryDishCategory.save(category);
+  }
+  //---------------------------------------------------------------------------
 
 
   remove(id: number) {
