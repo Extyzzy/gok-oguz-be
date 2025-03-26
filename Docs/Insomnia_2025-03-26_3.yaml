@@ -1,0 +1,1147 @@
+type: collection.insomnia.rest/5.0
+name: Gok_NewNew
+meta:
+  id: wrk_2ff60fed98b24acea8263325bf1aa354
+  created: 1743015800361
+  modified: 1743015800361
+collection:
+  - name: ImageGallery
+    meta:
+      id: fld_d22de8ac9d5f4467a836c7010ccbdad9
+      created: 1742995490766
+      modified: 1742995923150
+      sortKey: -1742995712592
+    children:
+      - url: http://localhost:4000/image-gallery/upload
+        name: upload
+        meta:
+          id: req_9b3d41e9af534372818d39ff2ac6aab2
+          created: 1742995401347
+          modified: 1743016100980
+          isPrivate: false
+          sortKey: -1742995498445.75
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_9c426ffcccb24bc1a33f040c44d5e652
+              name: name
+              value: name_4
+            - name: file
+              fileName: D:\Work\Projects\gok-oguz-be\Docs\Image\париж.jpg
+              id: pair_18c41c576ad24cbeb0f2e145df315d63
+              type: file
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/names
+        name: Names
+        meta:
+          id: req_a87b2b031dde47e29418d6d94cfa9eaf
+          created: 1743004163908
+          modified: 1743016122176
+          isPrivate: false
+          sortKey: -1743004163908
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/imagebyname/name_4
+        name: ImageByName
+        meta:
+          id: req_09396cd5366941beac5e48fba15b12d9
+          created: 1743005366869
+          modified: 1743016154382
+          isPrivate: false
+          sortKey: -1743005366869
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/imagebyid/1
+        name: ImageById
+        meta:
+          id: req_9f100607a0a14fd596163d1e084eb4df
+          created: 1743007330896
+          modified: 1743016134172
+          isPrivate: false
+          sortKey: -1743007330896
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/images
+        name: Images
+        meta:
+          id: req_ef6b28f4a81e4f3bb721aa4f67cb7e13
+          created: 1743008063698
+          modified: 1743008086900
+          isPrivate: false
+          sortKey: -1743008063698
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/recordbyid/4
+        name: RecordById
+        meta:
+          id: req_439d10680af444c4949f8279d0fb2f11
+          created: 1743009662140
+          modified: 1743018545952
+          isPrivate: false
+          sortKey: -1743009662140
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_8da1515e5bab49b08aa483064e547273
+              name: name
+              value: name_4_2
+            - id: pair_050b29af29a040959bca347facc52626
+              name: file
+              type: file
+              fileName: D:\Work\Projects\gok-oguz-be\Docs\Image\париж.jpg
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/recordbyname/newName
+        name: RecordByName
+        meta:
+          id: req_26997960e4a847808cf0a2149dd03796
+          created: 1743016925774
+          modified: 1743018748642
+          isPrivate: false
+          sortKey: -1743016925774
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_cebc03ad1bb045aabe35831b3b37a7d7
+              name: name
+              value: newName_2
+              disabled: false
+            - id: pair_c574a3dc98b3483489eeaeba881a0395
+              name: file
+              disabled: false
+              type: file
+              fileName: D:\Work\Projects\gok-oguz-be\Docs\Image\париж.jpg
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/recordbyname/newName
+        name: RecordByName
+        meta:
+          id: req_3585ec35952f475fa7308fc8646188e8
+          created: 1743018755166
+          modified: 1743018814757
+          isPrivate: false
+          sortKey: -1743018755166
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/image-gallery/recordbyid/6
+        name: RecordById
+        meta:
+          id: req_3b0d99886a3343ccb7f690d81cab804a
+          created: 1743018987999
+          modified: 1743019100548
+          isPrivate: false
+          sortKey: -1743018987999
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Dish
+    meta:
+      id: fld_f13b3c9951154c5090a0f630406af8d2
+      created: 1742995521485
+      modified: 1742995521485
+      sortKey: -1742995521485
+    children:
+      - url: http://localhost:3000/dish/upload
+        name: upload
+        meta:
+          id: req_64e04e76b566454bbc1682a9d789a954
+          created: 1742995401282
+          modified: 1742995687867
+          isPrivate: false
+          sortKey: -1742995401389
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - id: pair_04c8d9cfaedf43d0a58312cf87d4ef9a
+            - name: name
+              value: name_8
+              id: pair_da4fb1a25f864057ba408b6080976e21
+            - name: nameRo
+              value: nameRo_8
+              id: pair_0ec13c1ad1c04ba39e76928e0e0aebba
+            - name: nameRu
+              value: nameRu_8
+              id: pair_23416b47039049c1855557a6f3c4219d
+            - name: nameEn
+              value: nameEn_8
+              id: pair_fff352caf93b4148b12ea84eec1c0e81
+            - name: descriptionRo
+              value: descriptionRo_8
+              id: pair_dc05fd5412444e04bdde841deee62107
+            - name: descriptionRu
+              value: descriptionRu_8
+              id: pair_8613d2a777c34cd7a8452a8f944788f9
+            - name: descriptionEn
+              value: descriptionEn_8
+              id: pair_18e8fa8797b8455cbb89611e24587225
+            - name: weighDish
+              value: "1233422"
+              id: pair_c3c51e64e867408a9a30fa2c2e77a89d
+            - name: costDish
+              value: "3456783"
+              id: pair_8ca7723c23b84d5db17d957e51b937f5
+            - name: categoryDish
+              value: categoryDish_8
+              id: pair_6fad030c0fd7439c92e32164179a9a49
+            - name: file
+              fileName: D:\Work\Обувь\23,09\Т402.jpg
+              id: pair_3ca384e1c619455e9753899370dd3b3b
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/recordbyid/3
+        name: RecordById
+        meta:
+          id: req_ebb7eca7cbb94282b6df2ddd97e97082
+          created: 1742995401286
+          modified: 1742995655666
+          isPrivate: false
+          sortKey: -1742995400839
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/recordbyname/name_5
+        name: RecordByName
+        meta:
+          id: req_c22ccc0bb0d04faca18d6e290cc11db1
+          created: 1742995401288
+          modified: 1742995652425
+          isPrivate: false
+          sortKey: -1742995400889
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/allnames
+        name: AllNames
+        meta:
+          id: req_5e46e593338d4bd3860bf632a7ea16a6
+          created: 1742995401291
+          modified: 1742995647981
+          isPrivate: false
+          sortKey: -1742995400939
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/namesbycategory/categoryDish_3
+        name: NamesByCategory
+        meta:
+          id: req_3beb463ba5024ebeaeb7fa9f4c02a564
+          created: 1742995401293
+          modified: 1742995644470
+          isPrivate: false
+          sortKey: -1742995400989
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/databynameandlang/name_3/ru
+        name: DataByNameAndLang
+        meta:
+          id: req_b06b9315c7f14f88b65a5f4bbaf676b7
+          created: 1742995401297
+          modified: 1742995641000
+          isPrivate: false
+          sortKey: -1742995401039
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/imagebyid/7
+        name: ImageById
+        meta:
+          id: req_b2d2f649af81405b846c9607a2ffef75
+          created: 1742995401304
+          modified: 1742995635166
+          isPrivate: false
+          sortKey: -1742995401089
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/imagebyname/name_2
+        name: ImageByName
+        meta:
+          id: req_a35e887723704662b61c93a5ef23da43
+          created: 1742995401312
+          modified: 1742995616624
+          isPrivate: false
+          sortKey: -1742995401139
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/recordbyid/3
+        name: RecordById
+        meta:
+          id: req_85e5fd502638477c9311c4e0abaa4f58
+          created: 1742995401314
+          modified: 1742995612577
+          isPrivate: false
+          sortKey: -1742995401189
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: name
+              value: name_99
+              id: pair_bf34a5f7726a49548a0351b9d29b1542
+            - name: nameRo
+              value: nameRo_99
+              id: pair_c53ade96971846e597baca531977b790
+            - name: nameRu
+              value: nameRu_99
+              id: pair_745fdd57b72a4f95b49d9738ccfb9ef8
+            - name: nameEn
+              value: nameRo_99
+              id: pair_242c4dd5c4cf4d47a2341df1b9c16b76
+            - name: descriptionRo
+              value: descriptionRo_99
+              id: pair_8e34dc16f391404eb5510f5b6581161c
+            - name: descriptionRu
+              value: descriptionRu_99
+              id: pair_b4c2aeb29b5c4e57b032a8e00bcc15e0
+            - name: descriptionEn
+              value: descriptionEn_99
+              id: pair_4532e1ad529f462f84f69d9011d173b1
+            - name: weighDish
+              value: "45871"
+              id: pair_e929d59915f04d6c9dc81df5634be36d
+            - name: costDish
+              value: "85000"
+              id: pair_54b4cde46c92481bbb0560c16c382072
+            - name: categoryDish
+              value: categoryDish_99
+              id: pair_c06aa5403d5649e18d36ad6f24bbb2b6
+            - name: file
+              fileName: D:\Work\Обувь\23,09\К.jpg
+              id: pair_ede0f53a8f5b4406b42efc7cbf2a0c33
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/recordbyname/name_6
+        name: RecordByName
+        meta:
+          id: req_6e79bf4625994324870106f55e50bd01
+          created: 1742995401316
+          modified: 1742995605587
+          isPrivate: false
+          sortKey: -1742995401239
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: nameRo
+              value: nameRo_88
+              id: pair_5ffb77bea7244b5996a47cfe9bb0b033
+            - name: nameRu
+              value: nameRu_88
+              id: pair_c2d91a9b7b6b44d2aefc0cdc0a800a3c
+            - name: nameEn
+              value: nameEn_88
+              id: pair_2d68b94bc9bc4f8ca2f8e87f1c8d7512
+            - name: descriptionRo
+              value: descriptionRo_88
+              id: pair_be59f246614a425ca8e6d94a397dc795
+            - name: descriptionRu
+              value: descriptionRu_88
+              id: pair_c6138c04395f40c7a6cca9d688ac7862
+            - name: descriptionEn
+              value: descriptionEn_88
+              id: pair_98bc1ccfc06b45d882d31f44d304c8a4
+            - name: weighDish
+              value: "32100"
+              id: pair_b3d8728a669f4e75b23c3c9fafdcbde9
+            - name: costDish
+              value: "99000"
+              id: pair_c822836198434b28958a24c73ee97c29
+            - name: categoryDish
+              value: category_22_88
+              id: pair_141570e5f7fe411e93dd0c6858cb7015
+            - name: file
+              fileName: O:\Танюша Театр кружок\IMG_20230312_140946.jpg
+              id: pair_987aac5a90c344d7bff58212fabb5a55
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/recordbyid/3
+        name: RecordById
+        meta:
+          id: req_bb78605280d94dc699dfd5c581251ded
+          created: 1742995401328
+          modified: 1742995590753
+          isPrivate: false
+          sortKey: -1742995401289
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish/recordbyname/name_4
+        name: RecordByName
+        meta:
+          id: req_12246c6ff56946678e8aa5a84b4ed01d
+          created: 1742995401339
+          modified: 1742995581949
+          isPrivate: false
+          sortKey: -1742995401339
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: DishCategory
+    meta:
+      id: fld_4888e737683840e6842710ed3407d8e2
+      created: 1742995712542
+      modified: 1742995712542
+      sortKey: -1742995712542
+    children:
+      - url: http://localhost:3000/dish-category/upload
+        name: upload
+        meta:
+          id: req_15764c09f0a34c788052252affb7d9ea
+          created: 1742995401224
+          modified: 1742995838501
+          isPrivate: false
+          sortKey: -1742995400328
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: file
+              fileName: D:\Work\Танюша\2024.02.05\viber_image_2024-02-04_20-27-38-690.jpg
+              id: pair_f67b83852d974c6aafefe84c035d0d36
+            - name: categoryName
+              value: category_4
+              id: pair_b08c24d1436644f28676196dcadd9161
+            - name: ro
+              value: category_ro_4
+              id: pair_fb73f2325a5b432d831c34a44e6e40c9
+            - name: ru
+              value: category_ru_4
+              id: pair_82b761d1f7094f43871a20fdf21f40c6
+            - name: en
+              value: category_en_4
+              id: pair_41d95a9132aa469ab7421066677320a3
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/category_1/ru
+        name: reqSlagAndLangGetName
+        meta:
+          id: req_a7a481e38c9f4c3e99326626dea39cd3
+          created: 1742995401226
+          modified: 1742995835199
+          isPrivate: false
+          sortKey: -1742995400378
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/imageandnamebyid/6
+        name: ImageAndNamebyId
+        meta:
+          id: req_ac1a4784a06d4bd693d75ed9e5af885f
+          created: 1742995401230
+          modified: 1742995829917
+          isPrivate: false
+          sortKey: -1742995400428
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/imagebyid/7
+        name: ImageById
+        meta:
+          id: req_b5b36427132444a29c3b66b43c8a4f6a
+          created: 1742995401232
+          modified: 1742995826372
+          isPrivate: false
+          sortKey: -1742995400478
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/allbyid/6
+        name: AllById
+        meta:
+          id: req_83b87eeadc2346148704f929be18cea2
+          created: 1742995401234
+          modified: 1742995821657
+          isPrivate: false
+          sortKey: -1742995400528
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/langsbyid/7
+        name: LangsById
+        meta:
+          id: req_967decc308ff442fa47c906d898b56d6
+          created: 1742995401237
+          modified: 1742995818116
+          isPrivate: false
+          sortKey: -1742995400578
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: ro
+              value: category_ro_7_2
+              id: pair_24034c41efb84574bae032d0ccd20e9a
+            - name: ru
+              value: category_ro_7_2
+              id: pair_cb41d59ebb0548e186e4d55ca8339e9a
+            - name: en
+              value: category_en_7_2
+              id: pair_20f383106e6649e5b878991751b12812
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/imagebyid/6
+        name: ImageById
+        meta:
+          id: req_f88e65cd936a4e1eaf4e3ed77eb93522
+          created: 1742995401239
+          modified: 1742995814898
+          isPrivate: false
+          sortKey: -1742995400628
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: file
+              fileName: D:\Work\Танюша\2024.02.05\viber_image_2024-02-04_20-18-19-861.jpg
+              id: pair_7e9981bc627e45229b672eb4e64624b6
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/allbyid/7
+        name: AllById
+        meta:
+          id: req_5e454b5bf20a404a906e9c73a1f2f949
+          created: 1742995401241
+          modified: 1742995811702
+          isPrivate: false
+          sortKey: -1742995400678
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: file
+              fileName: D:\Work\Танюша\2025.02.23\Желтый и Оранжевый Простая Четкая.jpg
+              id: pair_30c1bc65e17241ad96eb9bef433717fc
+            - name: categoryName
+              value: category_7_4
+              id: pair_71086b8ec0854f56a1d05feafb0585a4
+            - name: ro
+              value: category_ro_7_4
+              id: pair_44c03480b42844e2985a86dfaa20901b
+            - name: ru
+              value: category_ru_7_4
+              id: pair_c3493445e19a4a65932501ad0517ee31
+            - name: en
+              value: category_en_7_4
+              id: pair_5e696b26f2fb41548068eaa58f77dc53
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/dish-category/upload
+        name: upload
+        meta:
+          id: req_c897c66ea957452abd36f660bc48aff7
+          created: 1742995401246
+          modified: 1742995808413
+          isPrivate: false
+          sortKey: -1742995400728
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: file
+              fileName: D:\Work\MyDocs\Для
+                Танюши\2024.11.08\изображение_viber_2024-11-07_21-54-55-705.png
+              id: pair_b277ce53dc5047e8a4ce406d1ee3f02c
+            - name: categoryName
+              value: Name_3
+              id: pair_a77e9dbe88944180aa05fd09e7a488f4
+            - name: ro
+              value: ro_3
+              id: pair_44fded95604a459e87446ac6322cf68c
+            - name: ru
+              value: ru_3
+              id: pair_5445d906943a4bd38a358794c1f6bce8
+            - name: en
+              value: en_3
+              id: pair_14fd68ac6b7048b2bd199767661b4a64
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/dish-category/names/names/names
+        name: getAllNames
+        meta:
+          id: req_fd8c0991717d402fa7811a53f25c197c
+          created: 1742995401248
+          modified: 1742995796388
+          isPrivate: false
+          sortKey: -1742995400778
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/dish-category/imagefromname/nameis/Name_3
+        name: ImageFromName
+        meta:
+          id: req_833dc145853a4f6da35bdba2e842ca58
+          created: 1742995401250
+          modified: 1742995792878
+          isPrivate: false
+          sortKey: -1742995400828
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:4000/dish-category/Name_1/ro
+        name: :name/:lang
+        meta:
+          id: req_d13ead159c24490c96074bca5dbdbfc9
+          created: 1742995401257
+          modified: 1742995789527
+          isPrivate: false
+          sortKey: -1742995400878
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/imagebyname/category_6_3
+        name: ImageByName
+        meta:
+          id: req_d3b6036b861c47d3b0bf3dc0b729dd38
+          created: 1742995401260
+          modified: 1742995785199
+          isPrivate: false
+          sortKey: -1742995400928
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/langsbyname/nameis/category_2
+        name: LangsByName
+        meta:
+          id: req_cf9a34cbc23c475e8722321eb7a55e20
+          created: 1742995401262
+          modified: 1742995781627
+          isPrivate: false
+          sortKey: -1742995400978
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/langbynameandlang/category_7_4/ru
+        name: LangByNameAndLang
+        meta:
+          id: req_fb579dc970e242ada0d32dacb4075c12
+          created: 1742995401264
+          modified: 1742995768448
+          isPrivate: false
+          sortKey: -1742995401028
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/allNames
+        name: allNames
+        meta:
+          id: req_cb3fff3d68f84efebf660994c85815c6
+          created: 1742995401266
+          modified: 1742995949224
+          isPrivate: false
+          sortKey: -1742995401078
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/namebyid/6
+        name: NameById
+        meta:
+          id: req_180ea177544747f381821609a422eedf
+          created: 1742995401271
+          modified: 1742995759232
+          isPrivate: false
+          sortKey: -1742995401128
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/deletebyname/category_3
+        name: DeleteByName
+        meta:
+          id: req_6c5cdfcf92154a71971c5ab9394a9a37
+          created: 1742995401273
+          modified: 1742995745543
+          isPrivate: false
+          sortKey: -1742995401178
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/deletebyid/9
+        name: DeleteById
+        meta:
+          id: req_afeef6d518c74515847c55aa51bdf3d9
+          created: 1742995401276
+          modified: 1742995739098
+          isPrivate: false
+          sortKey: -1742995401228
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/dish-category/recordbyname/Name_3
+        name: RecordByName
+        meta:
+          id: req_6948eed7a87d4f3bbd94ad99e4e04278
+          created: 1742995401278
+          modified: 1742995723543
+          isPrivate: false
+          sortKey: -1742995401278
+        method: PATCH
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: file
+              fileName: O:\Марафоны\Бельцы
+                30.04.2017\18192626_237012826780702_519901094223862253_o.jpg
+              id: pair_ce160b8b8c7749a28472797a538d6c44
+            - name: ro
+              value: Name_ro_3
+              id: pair_842ac7ca48d4408c91b4689b473f215c
+            - name: ru
+              value: Name_ru_3
+              id: pair_578398ca0dd64011af1996e623d617ac
+            - name: en
+              value: Name_en_3
+              id: pair_bbe7d8cfdd2a4d818ee48efe324ac098
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Auth
+    meta:
+      id: fld_e061d76ab57e41a8be9030f3e702e0bb
+      created: 1742995878118
+      modified: 1742995919165
+      sortKey: -1742995490666
+    children:
+      - url: http://localhost:3000/auth/login
+        name: login
+        meta:
+          id: req_4a300de014e843db8f493cd5d8ca5732
+          created: 1742995401190
+          modified: 1742995893820
+          isPrivate: false
+          sortKey: -1742995401171
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "ruslan@gokoguz.com",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:3000/auth
+        name: auth
+        meta:
+          id: req_4d6658e01f8843f7a08e0f941f6cfff0
+          created: 1742995401221
+          modified: 1742995886936
+          isPrivate: false
+          sortKey: -1742995401221
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "ruslan@gokoguz.com",
+            	"password": "123456"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Users
+    meta:
+      id: fld_33a83867cfa44ec1ae258be7c224c581
+      created: 1742995906775
+      modified: 1742995916709
+      sortKey: -1742995490716
+    children:
+      - url: http://localhost:3000/users
+        name: users
+        meta:
+          id: req_bba4bac414a34918b19f7228030d770c
+          created: 1742995401210
+          modified: 1742995910263
+          isPrivate: false
+          sortKey: -1742995401210
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.2.0
+          - name: Authorization
+            value: Bearer
+              eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJSdXNsYW4gVGltYmFsIiwiZW1haWwiOiJydXNsYW5AZ29rb2d1ei5jb20iLCJhdWQiOiJ1dWlkMSIsImlhdCI6MTczMzA2MjAxOCwiZXhwIjoxNzMzMDY1NjE4fQ.J-BViaSGiyP-3hXCNfoLJ0E7eLMc-o-76gAILb8fPGo
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_f477375e5be74056a7cef52c4c254ba4
+    created: 1742995447597
+    modified: 1742995447597
+environments:
+  name: Base Environment
+  meta:
+    id: env_d349db708b734b6089cecb425bc6aa58
+    created: 1742995447594
+    modified: 1742995447594
+    isPrivate: false
