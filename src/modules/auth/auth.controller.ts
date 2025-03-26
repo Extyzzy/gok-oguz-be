@@ -28,14 +28,20 @@ import LocalAuthGuard from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 
 @ApiTags('auth')
+
 @Controller('auth')
+
 export class AuthController {
+
   private readonly logger = new Logger(AuthController.name);
+
 
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
-  ) {}
+  ) {
+                // console.log("auth.controller.ts - AuthController{} - constructor()");
+  }
 
   @ApiBody({ type: LoginDto })
   @UseGuards(LocalAuthGuard)
@@ -44,6 +50,8 @@ export class AuthController {
     @CurrentUser() userCreds: Users,
   ): Promise<{ user: Users; accessToken: string }> {
     try {
+              console.log('auth.controller.ts - login()');
+
       const userResponse = await this.authService.login(userCreds);
       const { accessToken, refreshToken, user } = userResponse;
 
@@ -75,6 +83,8 @@ export class AuthController {
 
   @Post('authenticate')
   async authenticate(@AuthToken() token: string) {
+    console.log('auth.controller.ts - authenticate()');
+
     return this.authService.authenticate(token);
   }
 
@@ -82,6 +92,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async register(@Body() registerDto: any) {
     try {
+      console.log('auth.controller.ts - register()');
+
       const userResponse: any = await this.authService.register(registerDto);
 
       if (userResponse.statusCode !== 200) {
@@ -122,12 +134,14 @@ export class AuthController {
 
   @Get('logout')
   async logout(@CurrentUser() user: any, @AuthToken() token: string) {
+    console.log('auth.controller.ts - logout()');
     return this.authService.logout(user, token);
   }
 
   @UseGuards(ThrottlerGuard)
   @Get('check-email')
   async checkEmail(@Query('email') email: string) {
+    console.log('auth.controller.ts - checkEmail()');
     if (!email) {
       throw new HttpException('Email is required', HttpStatus.BAD_REQUEST);
     }
@@ -140,6 +154,8 @@ export class AuthController {
   @UseGuards(ThrottlerGuard)
   @Put('change-password')
   async changePassword(@Body() body: { id: number; password: string }) {
+    console.log('auth.controller.ts - changePassword()');
+
     if (!body?.id || !body?.password) {
       throw new Error('Missing required fields');
     }
