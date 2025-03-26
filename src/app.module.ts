@@ -9,6 +9,7 @@ import { UsersModule } from './modules/users/users.module';
 
 import { DishModule } from './dish/dish.module';
 import { DishCategoryModule } from './dish-category/dish-category.module';
+import { ImageGalleryModule } from './image-gallery/image-gallery.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { DishCategoryModule } from './dish-category/dish-category.module';
     UsersModule,
     DishModule,
     DishCategoryModule,
+    ImageGalleryModule,
   ],
   controllers: [],
   providers: [],

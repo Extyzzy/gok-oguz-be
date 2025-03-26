@@ -18,7 +18,7 @@ export class DishService {
   }
   //---------------------------------------------------------------------------
 
-  // --- create ---
+  // create...
   async create(
     name: string,
 
@@ -43,6 +43,7 @@ export class DishService {
 
 
     console.log("dish.service.ts - create() -> RepositoryDish.create()");
+
     const newRecord = this.RepositoryDish.create({
       name: name,
 
@@ -78,7 +79,8 @@ export class DishService {
   }
   //----------------------------------------------------------------------------
 
-  //--- Get ---
+  //----------------------------------------------------------------------------
+  // Get...
   async getRecordById(id: number): Promise<Dish | null>{
     return await this.RepositoryDish.findOne({ where: { id } });
   }
@@ -141,9 +143,11 @@ export class DishService {
     return `This action removes a #${id} dish`;
   }
 */
+  // --- Get
+  //---------------------------------------------------------------------------
 
-
-  //--- patch ---
+  //---------------------------------------------------------------------------
+  // Patch...
   async updateById(
     id: number,
     name: string,

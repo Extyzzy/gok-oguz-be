@@ -42,7 +42,7 @@ export class DishController {
   }
   //----------------------------------------------------------------------------
 
-  //--- Get ---
+  // Get...
   //получить запись по id
   @Get('recordbyid/:id')
   async getRecordById(@Param('id') id: number, @Res() res: Response) {
@@ -200,7 +200,8 @@ export class DishController {
   }
 */
 
-  //--- Patch ---
+  //---------------------------------------------------------------------------
+  // Patch...
   //Изменить всю запись по id
   @Patch('recordbyid/:id')
   @UseInterceptors(FileInterceptor('file'))
