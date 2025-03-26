@@ -1,4 +1,4 @@
-import { Body, Injectable, Param, UploadedFile } from '@nestjs/common';
+import { Body, Delete, Injectable, Param, UploadedFile } from '@nestjs/common';
 /*
 import { CreateImageGalleryDto } from './dto/create-image-gallery.dto';
 import { UpdateImageGalleryDto } from './dto/update-image-gallery.dto';
@@ -94,6 +94,7 @@ export class ImageGalleryService {
   async updateByName(
     // id: number,
     name: string,
+    newName: string,
     imageFile: Multer.File
   ){
 
@@ -108,7 +109,7 @@ export class ImageGalleryService {
 
     // console.log(`image-gallery.service.ts - updateById() - record: ${record}.`);
 
-    // record.name = name;
+    record.name = newName;
     record.image = imageFile.buffer;
     record.imageFileName = imageFile.originalname;
     record.imageMimeType = imageFile.mimeType;
@@ -120,5 +121,30 @@ export class ImageGalleryService {
   // --- Patch
   //---------------------------------------------------------------------------
 
+  // Delete...
+  //удалить запись по id
+  @Delete('recordbyid/:id')
+  async deleteRecordById(@Param('id') id: number) {
+
+    console.log("image-gallery.service.ts - @Delete('recordbyid/:id')...");
+    console.log(`image-gallery.service.ts - deleteRecordById() - id: ${id}`);
+
+    return await this.imageGalleryRepository.delete(id);
+  }
+  //---------------------------------------------------------------------------
+
+  //удалить запись по названию
+  @Delete('recordbyname/:name')
+  async deleteRecordByName(@Param('name') name: string) {
+
+    console.log("image-gallery.service.ts - @Delete('recordbyname/:name')...");
+    console.log(`image-gallery.service.ts - deleteRecordByName() - name: ${name}`);
+
+    return await this.imageGalleryRepository.delete(name);
+  }
+  //---------------------------------------------------------------------------
+
+  // --- Delete
+  //---------------------------------------------------------------------------
 
 }

@@ -131,7 +131,6 @@ export class ImageGalleryController {
 
     return { message: `запись обновлена (id: ${id})!`};
   }
-  // --- Patch
   //---------------------------------------------------------------------------
 
   //Изменить всю запись по названию
@@ -139,13 +138,14 @@ export class ImageGalleryController {
   @UseInterceptors(FileInterceptor('file'))
   async ptchRecordByName(
     @Param('name') name: string,
-    // @Body('name') name: string,
+    @Body('name') newName: string,
     @UploadedFile() imageFile: Multer.File
   ) {
     console.log(`image-gallery.controller.ts - ptchRecordByName() - name: ${name}.`);
 
     const updated = await this.imageGalleryService.updateByName(
       name,
+      newName,
       imageFile
     );
 
@@ -153,31 +153,36 @@ export class ImageGalleryController {
       return { message: 'запись не найдена' };
     }
 
-    return { message: `запись обновлена (name: ${name})!`};
+    return { message: `запись обновлена (name: ${name} -> ${newName})!`};
   }
   // --- Patch
   //---------------------------------------------------------------------------
 
-  /*
-    @Get()
-    findAll() {
-      return this.imageGalleryService.findAll();
-    }
 
-    @Get(':id')
-    findOne(@Param('id') id: string) {
-      return this.imageGalleryService.findOne(+id);
-    }
+  // Delete...
+  //удалить запись по id
+  @Delete('recordbyid/:id')
+  async deleteRecordById(@Param('id') id: number) {
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() updateImageGalleryDto: UpdateImageGalleryDto) {
-      return this.imageGalleryService.update(+id, updateImageGalleryDto);
-    }
+    console.log("image-gallery.controller.ts - @Delete('recordbyid/:id')...");
+    console.log(`image-gallery.controller.ts - deleteRecordById() - id: ${id}`);
 
-    @Delete(':id')
-    remove(@Param('id') id: string) {
-      return this.imageGalleryService.remove(+id);
-    }
-  */
+    return await this.imageGalleryService.deleteRecordById(id);
+  }
+  //---------------------------------------------------------------------------
+
+  //удалить запись по названию
+  @Delete('recordbyname/:name')
+  async deleteRecordByName(@Param('name') name: string) {
+
+    console.log("image-gallery.controller.ts - @Delete('recordbyname/:name')...");
+    console.log(`image-gallery.controller.ts - deleteRecordByName() - name: ${name}`);
+
+    return await this.imageGalleryService.deleteRecordByName(name);
+  }
+  //---------------------------------------------------------------------------
+
+  // --- Delete
+  //---------------------------------------------------------------------------
 
 }

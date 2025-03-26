@@ -303,7 +303,7 @@ export class DishController {
   }
   //----------------------------------------------------------------------------
 
-  //--- Delete ---
+  // Delete...
   //удалить запись по id
   @Delete('recordbyid/:id')
   async deleteRecordById(@Param('id') id: number) {
@@ -325,4 +325,8 @@ export class DishController {
     return await this.dishService.deleteRecordByName(name);
   }
   //---------------------------------------------------------------------------
+
+  // --- Delete
+  //---------------------------------------------------------------------------
+
 }
