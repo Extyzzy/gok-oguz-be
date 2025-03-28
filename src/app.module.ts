@@ -10,6 +10,7 @@ import { UsersModule } from './modules/users/users.module';
 import { DishModule } from './dish/dish.module';
 import { DishCategoryModule } from './dish-category/dish-category.module';
 import { ImageGalleryModule } from './image-gallery/image-gallery.module';
+import { NonWorkingDaysModule } from './non-working-days/non-working-days.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ImageGalleryModule } from './image-gallery/image-gallery.module';
     DishModule,
     DishCategoryModule,
     ImageGalleryModule,
+    NonWorkingDaysModule,
   ],
   controllers: [],
   providers: [],

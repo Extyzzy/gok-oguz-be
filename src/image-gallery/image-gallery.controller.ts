@@ -7,7 +7,7 @@ import { Response } from 'express';
 @Controller('image-gallery')
 export class ImageGalleryController {
   constructor(private readonly imageGalleryService: ImageGalleryService) {
-    console.log("image-gallery.controller.ts - class ImageGalleryController - constructor()");
+    // console.log("image-gallery.controller.ts - class ImageGalleryController - constructor()");
   }
 
   // Post...

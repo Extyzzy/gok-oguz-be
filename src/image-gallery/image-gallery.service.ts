@@ -15,7 +15,7 @@ export class ImageGalleryService {
     @InjectRepository(ImageGallery)
     private readonly imageGalleryRepository: Repository<ImageGallery>,
   ){
-    console.log("image-gallery.service.ts - class ImageGalleryService - constructor()");
+    // console.log("image-gallery.service.ts - class ImageGalleryService - constructor()");
   }
   //---------------------------------------------------------------------------
 

@@ -13,7 +13,8 @@ export class DishCategoryController {
     // console.log("dish-category.controller.ts - class DishCategoryController - constructor()");
   }
 
-  //--- Post ---
+  //---------------------------------------------------------------------------
+  // Post...
   //создать
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -32,6 +33,8 @@ export class DishCategoryController {
     const image = await this.dishCategoryService.create(file, categoryName, ro, ru, en);
     return { id: image.id, filename: image.filename };
   }
+  // --- Post
+  //---------------------------------------------------------------------------
 
   //--- Get ---
 
