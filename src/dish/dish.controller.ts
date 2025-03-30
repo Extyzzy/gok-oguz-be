@@ -11,7 +11,8 @@ import { Column } from 'typeorm';
 export class DishController {
   constructor(private readonly dishService: DishService) {}
 
-  //--- Post ---
+  //---------------------------------------------------------------------------
+  // Post...
   //создать
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -40,8 +41,12 @@ export class DishController {
 
     return this.dishService.create(name, nameRo, nameRu, nameEn, descriptionRo, descriptionRu, descriptionEn, weighDish, costDish, categoryDish, imageFile);
   }
-  //----------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
 
+  // --- Post
+  //---------------------------------------------------------------------------
+
+  //---------------------------------------------------------------------------
   // Get...
   //получить запись по id
   @Get('recordbyid/:id')
@@ -174,31 +179,13 @@ export class DishController {
     res.setHeader('Content-Type', record.imageMimeType);
     res.send(record.imageDish);
   }
-  //----------------------------------------------------------------------------
+  //---------------------------------------------------------------------------
+
+  // ---Get
+  //---------------------------------------------------------------------------
 
 
 
-/*
-  @Get()
-  findAll() {
-    return this.dishService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dishService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDishDto: UpdateDishDto) {
-    return this.dishService.update(+id, updateDishDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dishService.remove(+id);
-  }
-*/
 
   //---------------------------------------------------------------------------
   // Patch...

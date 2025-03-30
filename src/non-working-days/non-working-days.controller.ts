@@ -13,50 +13,96 @@ export class NonWorkingDaysController {
   //создать
   @Post('uploadbydate')
   async createDateByDate(
-        @Body('date') date: Date,
-        @Body('number') num: number
+        @Body('date') date: string,
+        @Body('numberofdays') num: number
   ) {
 
-    console.log("non-working-days.controller.ts - create()...");
+    console.log("non-working-days.controller.ts - createDateByDate()...");
+    console.log("non-working-days.controller.ts - createDateByDate() - date: ", date, ", num: ", num);
 
     return this.nonWorkingDaysService.createDateByDate(date, num);
   }
   //---------------------------------------------------------------------------
 
-  @Post('uploadbystring')
-  async createDateByString(
-    @Body('date') date: string,
-    @Body('number') num: number
-  ) {
-
-    console.log("non-working-days.controller.ts - create()...");
-    const timestamp = Date.parse(date); // Возвращает миллисекунды
-
-    return this.nonWorkingDaysService.createDateByDate(timestamp, num);
-  }
   // --- Post
   //---------------------------------------------------------------------------
 
-/*
+
+  //---------------------------------------------------------------------------
+  // Get...
+  //получить все записи
   @Get()
-  findAll() {
-    return this.nonWorkingDaysService.findAll();
-  }
+  async getAll(){
+    console.log("non-working-days.controller.ts - getAll()...");
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.nonWorkingDaysService.findOne(+id);
+    return this.nonWorkingDaysService.getAll();
   }
+  //---------------------------------------------------------------------------
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNonWorkingDayDto: UpdateNonWorkingDayDto) {
-    return this.nonWorkingDaysService.update(+id, updateNonWorkingDayDto);
-  }
+  //получить записи меньше указанной даты
+  @Get('recordbeforedate/:date')
+  async getRecBeforeDate(@Param('date') date :string){
+    console.log("non-working-days.controller.ts - getRecBeforeDate()...");
+    console.log("non-working-days.controller.ts - getRecBeforeDate() - date: ", date);
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.nonWorkingDaysService.remove(+id);
+    return this.nonWorkingDaysService.getBeforeDate(date);
   }
-*/
+  //---------------------------------------------------------------------------
+
+  // ---Get
+  //---------------------------------------------------------------------------
+
+
+  //---------------------------------------------------------------------------
+  // Patch...
+  //изменить по id
+  @Patch('recordbyid/:id')
+  async updateRecordById(
+    @Param('id') id: number,
+    @Body('newdate') newDate : string,
+    @Body('numberofdays') numberOfDays: number
+  ) {
+
+    console.log("non-working-days.controller.ts - updateRecordById()...");
+    console.log(`non-working-days.controller.ts - updateRecordById() - id: ${id}, newDate: ${newDate}, numberOfDays: ${numberOfDays}`);
+
+    return this.nonWorkingDaysService.updateRecordById(id, newDate, numberOfDays);
+  }
+  //---------------------------------------------------------------------------
+
+  //изменить по дате
+  @Patch('recordbydate/:date')
+  async updateRecordByDate(
+    @Param('date') date: string,
+    @Body('newdate') newDate : string,
+    @Body('numberofdays') numberOfDays: number
+  ) {
+
+    console.log("non-working-days.controller.ts - updateRecordByDate()...");
+    console.log(`non-working-days.controller.ts - updateRecordByDate() - date: ${date}, newDate: ${newDate}, numberOfDays: ${numberOfDays}`);
+
+    return this.nonWorkingDaysService.updateRecordByDate(date, newDate, numberOfDays);
+  }
+  //---------------------------------------------------------------------------
+
+  // --- Patch
+  //---------------------------------------------------------------------------
+
+
+  //---------------------------------------------------------------------------
+  // Delete...
+  //удалить запись по id
+  @Delete('recordbyid/:id')
+  async deleteRecordByName(@Param('id') id: number) {
+
+    console.log("non-working-days.controller.ts - deleteRecordByName()...");
+    console.log(`non-working-days.controller.ts - deleteRecordByName() - id: ${id}`);
+
+    return await this.nonWorkingDaysService.deleteRecordById(id);
+  }
+  //---------------------------------------------------------------------------
+
+  // --- Delete
+  //---------------------------------------------------------------------------
 
 }

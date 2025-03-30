@@ -108,12 +108,6 @@ export class DishCategoryService {
   }
   //---------------------------------------------------------------------------
 
-  /*
-    update(id: number, updateDishCategoryDto: UpdateDishCategoryDto) {
-      return `This action updates a #${id} dishCategory`;
-    }
-  */
-
   async updateImage(id: number, file: Multer.File): Promise<DishCategory | null> {
     console.log("dish-category.service.ts - updateImage()...");
     console.log("dish-category.service.ts - updateImage() - id:", id);

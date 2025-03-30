@@ -36,16 +36,8 @@ export class DishCategoryController {
   // --- Post
   //---------------------------------------------------------------------------
 
-  //--- Get ---
-
-/*
-  @Get()
-  findAll() {
-    return this.dishCategoryService.findAll();
-  }
-  //----------------------------
-*/
-
+  //---------------------------------------------------------------------------
+  // Get...
   //получить все по id
   @Get('allbyid/:id')
   async getAllById(@Param('id') id: number, @Res() res: Response) {
@@ -247,6 +239,9 @@ export class DishCategoryController {
     // res.send({aa:oneRecord.categoryImage, d:oneRecord.categoryName});
     res.send(oneRecord.categoryImage);
   }
+  //---------------------------------------------------------------------------
+
+  // ---Get
   //---------------------------------------------------------------------------
 
   //--- Patch ---

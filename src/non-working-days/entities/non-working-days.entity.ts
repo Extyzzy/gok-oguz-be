@@ -10,7 +10,7 @@ export class NonWorkingDays {
   firstDay: Date;
 
   //количество дней
-  @Column({ type: 'bytea' })
+  @Column()
   numOfDays: number;
 
 }
