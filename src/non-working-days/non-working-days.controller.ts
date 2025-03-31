@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { NonWorkingDaysService } from './non-working-days.service';
-import { CreateNonWorkingDayDto } from './dto/create-non-working-day.dto';
-import { UpdateNonWorkingDayDto } from './dto/update-non-working-day.dto';
 
 @Controller('non-working-days')
 export class NonWorkingDaysController {
