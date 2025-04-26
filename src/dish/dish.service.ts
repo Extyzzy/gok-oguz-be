@@ -1,284 +1,94 @@
-import { Body, Injectable, Param, UploadedFile } from '@nestjs/common';
-// import { CreateDishDto } from './dto/create-dish.dto';
-import { UpdateDishDto } from './dto/update-dish.dto';
-import { Multer } from 'multer';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Column, Repository } from 'typeorm';
-import { Dish } from './entities/dish.entity';
-import { DishCategory } from '../dish-category/entities/dish-category.entity';
+import { Repository } from 'typeorm';
+import { Dish } from '@app/dish/entities/dish.entity';
+import { CreateDishDto } from '@app/dish/dto/create-dish.dto';
+import { UpdateDishDto } from '@app/dish/dto/update-dish.dto';
 
 @Injectable()
 export class DishService {
-
   constructor(
     @InjectRepository(Dish)
-    private readonly RepositoryDish: Repository<Dish>,
-  ){
-    // console.log("dish.service.ts - class DishService - constructor()");
+    private readonly dishRepository: Repository<Dish>,
+  ) {}
+
+  async create(createDishDto: CreateDishDto): Promise<Dish> {
+    const dish = this.dishRepository.create(createDishDto);
+    return await this.dishRepository.save(dish);
   }
-  //---------------------------------------------------------------------------
 
-  // create...
-  async create(
-    name: string,
+  async findAll(): Promise<Dish[]> {
+    return await this.dishRepository.find({
+      relations: ['category'],
+      order: { id: 'ASC' },
+    });
+  }
 
-    nameRo: string,
-    nameRu: string,
-    nameEn: string,
-
-    descriptionRo: string,
-    descriptionRu: string,
-    descriptionEn: string,
-
-    weighDish: number,
-    costDish: number,
-    categoryDish: string,
-
-    imageFile: Multer.File
-  ) {
-
-      console.log("dish.service.ts - create()...");
-      console.log(`dish.service.ts - create() - name: ${name}, nameRo: ${nameRo}, nameRu: ${nameRu}, nameEn: ${nameEn}, descriptionRo: ${descriptionRo}, descriptionRu: ${descriptionRu},
-        descriptionEn: ${descriptionEn}, weighDish: ${weighDish}, costDish: ${costDish}, categoryDish: ${categoryDish}, imageFile: ${imageFile.originalname}`);
-
-
-    console.log("dish.service.ts - create() -> RepositoryDish.create()");
-
-    const newRecord = this.RepositoryDish.create({
-      name: name,
-
-      nameRo: nameRo,
-      nameRu: nameRu,
-      nameEn: nameEn,
-
-      descriptionRo: descriptionRo,
-      descriptionRu:       descriptionRu,
-      descriptionEn: descriptionEn,
-
-      weighDish:       weighDish,
-      costDish:      costDish,
-      categoryDish:      categoryDish,
-
-      imageDish: imageFile.buffer,
-      imageFileName: imageFile.originalname,
-      imageMimeType: imageFile.mimetype,
+  async findAllPublic(language: string) {
+    const dishes = await this.dishRepository.find({
+      relations: ['category'],
+      order: { id: 'ASC' },
     });
 
-    console.log("dish.service.ts - create() <- RepositoryDish.create()");
-
-    console.log("dish.service.ts - create() -> RepositoryDish.save()");
-
-    const ret = await this.RepositoryDish.save(newRecord);
-
-    console.log("dish.service.ts - create() <- RepositoryDish.save()");
-
-    if (ret != null) {
-      console.log("'This action adds a new dish';")
-    }
-    return ret;
-  }
-  //----------------------------------------------------------------------------
-
-  //----------------------------------------------------------------------------
-  // Get...
-  async getRecordById(id: number): Promise<Dish | null>{
-    return await this.RepositoryDish.findOne({ where: { id } });
-  }
-  //----------------------------------------------------------------------------
-
-  async getRecordByName(name: string): Promise<Dish | null>{
-    return await this.RepositoryDish.findOne({ where: { name/*: name*/ } });
-  }
-  //----------------------------------------------------------------------------
-
-  async getAllNames()
-  {
-    // return await this.RepositoryDish.find({ select: ['name'] }) ?? [];
-    return await this.RepositoryDish.find({ select: ['name', 'id'] }) ?? [];
-  }
-  //----------------------------------------------------------------------------
-
-  //Получить все названия одной категории (slag);
-  async getNamesByCategory(category: string)
-  {
-    const records = await this.RepositoryDish.find({
-      where: { categoryDish: category }});
-
-      console.log("dish.service.ts - getNamesByCategory() - records: ", records);
-
-    const fields = records.map(record => record.name);
-
-      console.log("dish.service.ts - getNamesByCategory() - fields: ", fields);
-
-    return fields;
-  }
-  //----------------------------------------------------------------------------
-
-/*
-  async getImageById(id: number): Promise<Dish | null> {
-
-    console.log("dish-category.service.ts - getImageById()...");
-    console.log("dish-category.service.ts - getImageById() - id: ", id);
-
-    return await this.RepositoryDish.findOne({ where: { id } });
-  }
-  //---------------------------------------------------------------------------
-*/
-
-
-/*
-  findAll() {
-    return `This action returns all dish`;
+    return dishes.map((dish) => ({
+      ...dish,
+      name: this.getLocalizedField(dish, 'name', language),
+      description: this.getLocalizedField(dish, 'description', language),
+      category: {
+        ...dish.category,
+        name: this.getLocalizedField(dish.category, 'name', language),
+      },
+    }));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dish`;
+  private getLocalizedField(
+    entity: any,
+    field: string,
+    language: string,
+  ): string {
+    const localizedField = `${field}_${language}`;
+    return entity[localizedField] || entity[field] || '';
   }
 
-  update(id: number, updateDishDto: UpdateDishDto) {
-    return `This action updates a #${id} dish`;
-  }
+  async findOne(id: number): Promise<Dish> {
+    const dish = await this.dishRepository.findOne({
+      where: { id },
+      relations: ['category'],
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} dish`;
-  }
-*/
-  // --- Get
-  //---------------------------------------------------------------------------
-
-  //---------------------------------------------------------------------------
-  // Patch...
-  async updateById(
-    id: number,
-    name: string,
-
-    nameRo: string,
-    nameRu: string,
-    nameEn: string,
-
-    descriptionRo: string,
-    descriptionRu: string,
-    descriptionEn: string,
-
-    weighDish: number,
-    costDish: number,
-    categoryDish: string,
-
-    file: Multer.File
-  )
-  {
-    const record = await this.RepositoryDish.findOne({ where: { id } });
-    if (!record) {
-      console.log("запись не найдена!");
-      return null;
+    if (!dish) {
+      throw new NotFoundException(`Dish with ID ${id} not found`);
     }
 
-    // Обновляем данные
-    // category.categoryImage = file.buffer;
-    // category.filename = file.originalname;
-    // category.mimetype = file.mimetype;
-    record.name = name;
-
-    record.nameRo = nameRo;
-    record.nameRu = nameRu;
-    record.nameEn = nameEn;
-
-    record.descriptionRo = descriptionRo;
-    record.descriptionRu = descriptionRu;
-    record.descriptionEn = descriptionEn;
-
-    record.weighDish = weighDish;
-    record.costDish = costDish;
-    record.categoryDish = categoryDish;
-
-    record.imageDish = file.buffer;
-    record.imageFileName = file.originalname;
-    record.imageMimeType = file.mimetype;
-
-    // Сохраняем изменения
-    return await this.RepositoryDish.save(record);
+    return dish;
   }
-  //---------------------------------------------------------------------------
 
-  async updateByName(
-    name: string,
+  async findByCategoryId(categoryId: number): Promise<Dish[]> {
+    return await this.dishRepository.find({
+      where: { category_id: categoryId },
+      relations: ['category'],
+      order: { id: 'ASC' },
+    });
+  }
 
-    nameRo: string,
-    nameRu: string,
-    nameEn: string,
+  async update(id: number, updateDishDto: UpdateDishDto): Promise<Dish> {
+    const dish = await this.dishRepository.preload({
+      id: id,
+      ...updateDishDto,
+    });
 
-    descriptionRo: string,
-    descriptionRu: string,
-    descriptionEn: string,
-
-    weighDish: number,
-    costDish: number,
-    categoryDish: string,
-
-    file: Multer.File
-  )
-  {
-    const record = await this.RepositoryDish.findOne({ where: { name } });
-    if (!record) {
-      console.log("запись не найдена!");
-      return null;
+    if (!dish) {
+      throw new NotFoundException(`Dish with ID ${id} not found`);
     }
 
-    // Обновляем данные
-    // category.categoryImage = file.buffer;
-    // category.filename = file.originalname;
-    // category.mimetype = file.mimetype;
-    // record.name = name;
-
-    record.nameRo = nameRo;
-    record.nameRu = nameRu;
-    record.nameEn = nameEn;
-
-    record.descriptionRo = descriptionRo;
-    record.descriptionRu = descriptionRu;
-    record.descriptionEn = descriptionEn;
-
-    record.weighDish = weighDish;
-    record.costDish = costDish;
-    record.categoryDish = categoryDish;
-
-    record.imageDish = file.buffer;
-    record.imageFileName = file.originalname;
-    record.imageMimeType = file.mimetype;
-
-    // Сохраняем изменения
-    return await this.RepositoryDish.save(record);
+    return await this.dishRepository.save(dish);
   }
-  //---------------------------------------------------------------------------
 
-  //--- Delete ---
-  async deleteRecordById(id: number): Promise<{ message: string }> {
+  async remove(id: number): Promise<void> {
+    const result = await this.dishRepository.delete(id);
 
-    console.log("dish-category.service.ts - deleteRecordById() - id:", id);
-
-    const deleteResult = await this.RepositoryDish.delete(id);
-
-    if (deleteResult.affected === 0) {
-      return { message: "Запись не найдена" };
+    if (result.affected === 0) {
+      throw new NotFoundException(`Dish with ID ${id} not found`);
     }
-
-    return { message: `Запись с id: ${id}, удалена` };
   }
-  //---------------------------------------------------------------------------
-
-  async deleteRecordByName(name: string): Promise<{ message: string }> {
-
-    console.log("dish-category.service.ts - deleteRecordByName() - name:", name);
-
-    const deleteResult = await this.RepositoryDish.delete({ name });
-
-    if (deleteResult.affected === 0) {
-      return { message: "Запись не найдена" };
-    }
-
-    return { message: `Запись с name: ${name}, удалена` };
-  }
-  //---------------------------------------------------------------------------
-
-
 }

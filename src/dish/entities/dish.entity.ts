@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { DishCategory } from '@app/dish-category/entities/dish-category.entity';
 
 @Entity()
 export class Dish {
@@ -6,48 +13,39 @@ export class Dish {
   id: number;
 
   @Column()
-  name: string; //название блюда (slag)
-  //---
+  name: string;
 
   @Column()
-  nameRo: string; //название блюда (Ro)
+  name_en: string;
 
   @Column()
-  nameRu: string; //название блюда (Ru)
+  name_ro: string;
 
   @Column()
-  nameEn: string; //название блюда (En)
-  //---
+  name_ru: string;
 
+  @Column({ type: 'text' })
+  description_en: string;
 
-  @Column()
-  descriptionRo: string; //описание блюда (Ro)
+  @Column({ type: 'text' })
+  description_ro: string;
 
-  @Column()
-  descriptionRu: string; //описание блюда (Ru)
-
-  @Column()
-  descriptionEn: string; //описание блюда (En)
-  //---
-
+  @Column({ type: 'text' })
+  description_ru: string;
 
   @Column()
-  weighDish: number; // вес в граммах
+  price: number;
 
   @Column()
-  costDish: number; // цена в банях
+  weight: number;
 
   @Column()
-  categoryDish: string; //категория блюда (slag)
-  //---
+  image: string;
 
+  @ManyToOne(() => DishCategory, (category) => category.dishes)
+  @JoinColumn({ name: 'category_id' })
+  category: DishCategory;
 
-  @Column({ type: 'bytea' })
-  imageDish: Buffer; //изображение блюда
-
-  @Column()
-  imageFileName: string; //название файла изображения
-
-  @Column()
-  imageMimeType: string; //тип файла изображения блюда
+  @Column({ nullable: true })
+  category_id: number;
 }

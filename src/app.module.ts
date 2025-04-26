@@ -1,42 +1,22 @@
-import { join } from 'path';
-
 import { Module } from '@nestjs/common';
-import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { AuthModule } from './modules/auth/auth.module';
-import { UsersModule } from './modules/users/users.module';
-
-import { DishModule } from './dish/dish.module';
-import { DishCategoryModule } from './dish-category/dish-category.module';
-import { ImageGalleryModule } from './image-gallery/image-gallery.module';
-import { NonWorkingDaysModule } from './non-working-days/non-working-days.module';
+import { ConsoleModule } from 'nestjs-console';
+import { DishModule } from '@app/dish/dish.module';
+import { DishCategoryModule } from '@app/dish-category/dish-category.module';
+import { UsersModule } from '@app/users/users.module';
+import { AuthModule } from '@app/auth/auth.module';
+import { DatabaseSeedModule } from '@app/database/seed.module';
+import { typeOrmConfig } from '@app/config/typeorm';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.POSTGRES_URL,
-      connectTimeoutMS: 10000,
-      synchronize: true,
-      // logging: ['query', 'warn', 'error'],
-      autoLoadEntities: true,
-      entities: [join(__dirname, '**', '*.entity.{ts,js}')],
-    }),
-    ThrottlerModule.forRoot([
-      {
-        ttl: 60000,
-        limit: 3,
-      },
-    ]),
-    AuthModule,
-    UsersModule,
+    TypeOrmModule.forRoot(typeOrmConfig),
     DishModule,
     DishCategoryModule,
-    ImageGalleryModule,
-    NonWorkingDaysModule,
+    UsersModule,
+    AuthModule,
+    ConsoleModule,
+    DatabaseSeedModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
