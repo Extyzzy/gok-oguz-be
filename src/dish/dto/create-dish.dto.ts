@@ -32,12 +32,12 @@ export class CreateDishDto {
 
   @IsNumber()
   @IsNotEmpty()
-  @Transform(({ value }: { value: string }) => parseFloat(value) * 100)
+  @Transform(({ value }: { value: string }) => parseFloat(value))
   price: number;
 
   @IsNumber()
   @IsNotEmpty()
-  @Transform(({ value }: { value: string }) => parseFloat(value) * 100)
+  @Transform(({ value }: { value: string }) => parseFloat(value))
   weight: number;
 
   @IsString()

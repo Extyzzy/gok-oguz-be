@@ -12,7 +12,6 @@ import {
   UseInterceptors,
   UploadedFile,
   BadRequestException,
-  Header,
   Req,
 } from '@nestjs/common';
 import { DishService } from '@app/dish/dish.service';
@@ -64,16 +63,41 @@ export class DishController {
     return this.dishService.create(createDishDto);
   }
 
+  @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('file', multerConfig))
+  @ApiOperation({ summary: 'Update dish by ID' })
+  @ApiParam({ name: 'id', type: Number, description: 'Dish ID' })
+  @ApiConsumes('multipart/form-data') // <--- very important!
+  @ApiResponse({ status: 200, description: 'Dish updated', type: Dish })
+  @ApiResponse({ status: 404, description: 'Dish not found' })
+  async update(
+    @Param('id') id: string,
+    @Body() updateDishDto: UpdateDishDto,
+    @UploadedFile() file?: Express.Multer.File, // <-- optional file
+  ): Promise<Dish> {
+    if (file) {
+      const allowedMimeTypes = ['image/jpeg', 'image/png'];
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new BadRequestException('Only JPEG or PNG images are allowed');
+      }
+
+      updateDishDto.image = `/uploads/dishes/${file.filename}`;
+    }
+
+    return this.dishService.update(+id, updateDishDto);
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Get all dishes' })
+  @ApiOperation({ summary: 'Get all dishes for admin' })
   @ApiResponse({ status: 200, description: 'List of all dishes', type: [Dish] })
   async findAll(): Promise<Dish[]> {
     return this.dishService.findAll();
   }
 
   @Get('/public')
-  @ApiOperation({ summary: 'Get all dishes' })
+  @ApiOperation({ summary: 'Get all dishes for main site' })
   @ApiResponse({
     status: 200,
     description: 'List of all dishes',
@@ -106,19 +130,6 @@ export class DishController {
     @Param('categoryId') categoryId: string,
   ): Promise<Dish[]> {
     return this.dishService.findByCategoryId(+categoryId);
-  }
-
-  @Put(':id')
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Update dish by ID' })
-  @ApiParam({ name: 'id', type: Number, description: 'Dish ID' })
-  @ApiResponse({ status: 200, description: 'Dish updated', type: Dish })
-  @ApiResponse({ status: 404, description: 'Dish not found' })
-  async update(
-    @Param('id') id: string,
-    @Body() updateDishDto: UpdateDishDto,
-  ): Promise<Dish> {
-    return this.dishService.update(+id, updateDishDto);
   }
 
   @Delete(':id')
