@@ -1,4 +1,4 @@
-import { connectionSource } from './config/typeorm.cli';
+import connectionSource from './config/typeorm.cli';
 
 async function testConnection() {
   try {
