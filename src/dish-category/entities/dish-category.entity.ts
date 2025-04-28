@@ -7,7 +7,7 @@ export class DishCategory {
   id: number;
 
   @Column()
-  name: string;
+  slug: string;
 
   @Column()
   name_en: string;
@@ -20,4 +20,7 @@ export class DishCategory {
 
   @OneToMany(() => Dish, (dish) => dish.category)
   dishes: Dish[];
+
+  @Column({ nullable: true })
+  image: string;
 }

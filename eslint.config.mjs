@@ -85,7 +85,6 @@ export default tseslint.config(
       ],
       'class-methods-use-this': 'off', // Disabled for NestJS services/controllers
       'max-classes-per-file': 'off', // Allow multiple classes in modules
-      'no-console': 'warn',
       'padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: '*', next: 'return' },

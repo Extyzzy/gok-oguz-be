@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateDishDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  slug: string;
 
   @IsString()
   @IsNotEmpty()

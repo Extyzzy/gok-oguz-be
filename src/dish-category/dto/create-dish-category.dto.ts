@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 export class CreateDishCategoryDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  slug: string;
 
   @IsString()
   @IsNotEmpty()

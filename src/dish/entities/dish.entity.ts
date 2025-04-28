@@ -13,7 +13,7 @@ export class Dish {
   id: number;
 
   @Column()
-  name: string;
+  slug: string;
 
   @Column()
   name_en: string;
@@ -39,7 +39,7 @@ export class Dish {
   @Column()
   weight: number;
 
-  @Column()
+  @Column({})
   image: string;
 
   @ManyToOne(() => DishCategory, (category) => category.dishes)

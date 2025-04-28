@@ -6,14 +6,12 @@ import {
   Param,
   Delete,
   Put,
-  Patch,
   HttpCode,
   HttpStatus,
   UseGuards,
   UseInterceptors,
   UploadedFile,
   BadRequestException,
-  Req,
 } from '@nestjs/common';
 import { DishCategoryService } from '@app/dish-category/dish-category.service';
 import { CreateDishCategoryDto } from '@app/dish-category/dto/create-dish-category.dto';
@@ -29,8 +27,9 @@ import {
   ApiConsumes,
 } from '@nestjs/swagger';
 import { DishCategory } from './entities/dish-category.entity';
+import { Dish } from '@app/dish/entities/dish.entity';
 
-@ApiTags('dishe-categories')
+@ApiTags('dish-categories')
 @Controller('dish-category')
 export class DishCategoryController {
   constructor(private readonly dishCategoryService: DishCategoryService) {}
@@ -43,17 +42,19 @@ export class DishCategoryController {
   @ApiConsumes('multipart/form-data')
   async create(
     @Body() createDishCategoryDto: CreateDishCategoryDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<DishCategory> {
-    if (!file) {
-      throw new BadRequestException('File upload is required');
-    }
-    const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
-    if (!allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException('Only JPEG or PNG images are allowed');
-    }
+    if (file) {
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
 
-    createDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new BadRequestException(
+          'Only JPEG or PNG images or SVG are allowed',
+        );
+      }
+
+      createDishCategoryDto.image = `/uploads/dishes-categories/${file.filename}`;
+    }
 
     return this.dishCategoryService.create(createDishCategoryDto);
   }
@@ -79,18 +80,23 @@ export class DishCategoryController {
     return this.dishCategoryService.findOne(+id);
   }
 
+  @Get('public/:slug/dishes')
+  async findDishedByCategorySlug(@Param('slug') slug: string): Promise<Dish[]> {
+    return this.dishCategoryService.findDishesBySlug(slug);
+  }
+
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
   @ApiOperation({ summary: 'Update categories by ID' })
   @ApiParam({ name: 'id', type: Number, description: 'Dish ID' })
-  @ApiConsumes('multipart/form-data') // <--- very important!
+  @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 200, description: 'Dish updated', type: DishCategory })
   @ApiResponse({ status: 404, description: 'Dish not found' })
   async update(
     @Param('id') id: string,
     @Body() updateDishCategoryDto: UpdateDishCategoryDto,
-    @UploadedFile() file?: Express.Multer.File, // <-- optional file
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<DishCategory> {
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
@@ -102,6 +108,7 @@ export class DishCategoryController {
     }
 
     await this.dishCategoryService.update(+id, updateDishCategoryDto);
+
     return this.dishCategoryService.findOne(+id);
   }
 

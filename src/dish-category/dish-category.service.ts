@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { DishCategory } from '@app/dish-category/entities/dish-category.entity';
 import { CreateDishCategoryDto } from '@app/dish-category/dto/create-dish-category.dto';
 import { UpdateDishCategoryDto } from '@app/dish-category/dto/update-dish-category.dto';
+import { Dish } from '@app/dish/entities/dish.entity';
 
 @Injectable()
 export class DishCategoryService {
   constructor(
     @InjectRepository(DishCategory)
     private readonly dishCategoryRepository: Repository<DishCategory>,
+    @InjectRepository(Dish)
+    private readonly dishRepository: Repository<Dish>,
   ) {}
 
   create(createDishCategoryDto: CreateDishCategoryDto) {
@@ -23,6 +26,13 @@ export class DishCategoryService {
     return await this.dishCategoryRepository.find({
       relations: ['dishes'],
       order: { id: 'ASC' },
+    });
+  }
+
+  async findDishesBySlug(slug: string) {
+    return this.dishRepository.find({
+      where: { category: { slug } },
+      order: { slug: 'ASC' },
     });
   }
 
