@@ -104,7 +104,8 @@ export class DishController {
     type: [Dish],
   })
   async findAllPublic(@Req() request: Request): Promise<Dish[]> {
-    const language = request.headers.get('lang') || 'en';
+    console.info(request.headers);
+    const language = (request.headers as any)?.lang || 'ro';
     return this.dishService.findAllPublic(language.substring(0, 2));
   }
 

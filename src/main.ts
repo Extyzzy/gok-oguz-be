@@ -14,7 +14,7 @@ async function bootstrap() {
     origin: [process.env.CLIENT_URL],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
-    allowedHeaders: 'Content-Type, Authorization, Accept',
+    allowedHeaders: 'Content-Type, Authorization, Accept, Lang',
   });
 
   app.use(cookieParser());
