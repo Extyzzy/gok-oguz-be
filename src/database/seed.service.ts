@@ -13,16 +13,19 @@ export class DatabaseSeedService {
 
   async seedAdminUser() {
     const adminExists = await this.userRepository.findOne({
-      where: { email: 'admin@example.com' },
+      where: { email: process.env.ADMIN_EMAIL },
     });
 
     if (!adminExists) {
-      const hashedPassword = await bcrypt.hash('admin123', 10);
+      const hashedPassword = await bcrypt.hash(
+        process.env.ADMIN_PASSWORD as string,
+        10,
+      );
       const adminUser = await this.userRepository.save({
-        email: 'admin@example.com',
+        email: process.env.ADMIN_EMAIL,
         password: hashedPassword,
-        firstName: 'Admin',
-        lastName: 'User',
+        firstName: 'Ruslan',
+        lastName: 'Timbal',
         isActive: true,
         roles: ['admin'],
       });

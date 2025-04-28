@@ -53,7 +53,9 @@ export class DishCategoryController {
         );
       }
 
-      createDishCategoryDto.image = `/uploads/dishes-categories/${file.filename}`;
+      createDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
+    } else {
+      createDishCategoryDto.image = '';
     }
 
     return this.dishCategoryService.create(createDishCategoryDto);

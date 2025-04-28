@@ -46,20 +46,20 @@ export class DishController {
   @ApiConsumes('multipart/form-data')
   async create(
     @Body() createDishDto: CreateDishDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<Dish> {
-    if (!file) {
-      throw new BadRequestException('File upload is required');
-    }
-    const allowedMimeTypes = ['image/jpeg', 'image/png'];
-    if (!allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException('Only JPEG or PNG images are allowed');
-    }
+    if (file) {
+      const allowedMimeTypes = ['image/jpeg', 'image/png'];
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new BadRequestException('Only JPEG or PNG images are allowed');
+      }
 
-    createDishDto.image = `/uploads/dishes/${file.filename}`;
+      createDishDto.image = `/uploads/dishes/${file.filename}`;
+    } else {
+      createDishDto.image = '';
+    }
 
     await this.dishCategoryService.findOne(createDishDto.category_id);
-
     return this.dishService.create(createDishDto);
   }
 

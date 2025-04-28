@@ -39,7 +39,7 @@ export class Dish {
   @Column()
   weight: number;
 
-  @Column({})
+  @Column({ nullable: true })
   image: string;
 
   @ManyToOne(() => DishCategory, (category) => category.dishes)
