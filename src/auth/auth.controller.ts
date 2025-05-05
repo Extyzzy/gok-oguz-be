@@ -51,10 +51,10 @@ export class AuthController {
     }
 
     const { accessToken, refreshToken } = this.authService.getTokens(user);
-    response.setHeader('Set-Cookie', [
-      `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${process.env.JWT_EXPIRATION}`, // 1h
-      `Refresh=${refreshToken}; HttpOnly; Path=/; Max-Age=604800`, // 7d
-    ]);
+    // response.setHeader('Set-Cookie', [
+    //   `Authentication=${accessToken}; HttpOnly; Path=/; Max-Age=${process.env.JWT_EXPIRATION}`, // 1h
+    //   `Refresh=${refreshToken}; HttpOnly; Path=/; Max-Age=604800`, // 7d
+    // ]);
 
     return user;
   }
