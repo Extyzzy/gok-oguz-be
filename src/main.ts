@@ -11,10 +11,12 @@ async function bootstrap() {
   const port = process.env.PORT ?? 4000;
 
   app.enableCors({
-    origin: [process.env.CLIENT_URL],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    origin: (origin, callback) => {
+      callback(null, true); // allow any origin for dev (or add specific logic)
+    },
     credentials: true,
-    allowedHeaders: 'Content-Type, Authorization, Accept, Lang',
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Lang'],
   });
 
   app.use(cookieParser());
