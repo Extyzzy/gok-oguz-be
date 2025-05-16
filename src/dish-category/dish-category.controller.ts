@@ -52,7 +52,6 @@ export class DishCategoryController {
       console.log("dish-category.controller.ts - create() - createDishCategoryDto: ", createDishCategoryDto);
       console.log("dish-category.controller.ts - create() - file.filename: ", file?.filename);
 
-/*
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
 
@@ -67,7 +66,6 @@ export class DishCategoryController {
     else {
       createDishCategoryDto.image = '';
     }
-*/
 
     return this.dishCategoryService.create(createDishCategoryDto, file);
   }
