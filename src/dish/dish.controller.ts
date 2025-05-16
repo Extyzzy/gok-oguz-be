@@ -48,6 +48,7 @@ export class DishController {
     @Body() createDishDto: CreateDishDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<Dish> {
+    console.log("dish.controller.ts - create()...");
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png'];
       if (!allowedMimeTypes.includes(file.mimetype)) {
@@ -104,7 +105,8 @@ export class DishController {
     type: [Dish],
   })
   async findAllPublic(@Req() request: Request): Promise<Dish[]> {
-    console.info(request.headers);
+    console.log("dish.controller.ts - findAllPublic()...");
+      console.info(request.headers);
     const language = (request.headers as any)?.lang || 'ro';
     return this.dishService.findAllPublic(language.substring(0, 2));
   }

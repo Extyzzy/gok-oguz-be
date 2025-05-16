@@ -25,7 +25,9 @@ import { User } from '@app/users/entities/user.entity';
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {
+    console.log("users.controller.ts - constructor()...");
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
@@ -35,6 +37,7 @@ export class UsersController {
     type: User,
   })
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+      console.log("users.controller.ts - create()...");
     return this.usersService.create(createUserDto);
   }
 
@@ -42,6 +45,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'List of all users', type: [User] })
   async findAll(): Promise<User[]> {
+      console.log("users.controller.ts - findAll()...");
     return this.usersService.findAll();
   }
 
@@ -50,6 +54,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User found', type: User })
   @ApiResponse({ status: 404, description: 'User not found' })
   async findOne(@Param('id') id: string): Promise<User> {
+    console.log("users.controller.ts - findOne() - id:", id);
     return this.usersService.findOne(+id);
   }
 
@@ -61,6 +66,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
+    console.log("users.controller.ts - update()...");
     return this.usersService.update(+id, updateUserDto);
   }
 

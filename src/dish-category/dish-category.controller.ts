@@ -44,7 +44,11 @@ export class DishCategoryController {
     @Body() createDishCategoryDto: CreateDishCategoryDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<DishCategory> {
-    if (file) {
+      console.log("dish-category.controller.ts - create()...");
+      console.log("dish-category.controller.ts - create() - createDishCategoryDto: ", createDishCategoryDto);
+      console.log("dish-category.controller.ts - create() - file.filename: ", file?.filename);
+
+      if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
 
       if (!allowedMimeTypes.includes(file.mimetype)) {
@@ -54,7 +58,8 @@ export class DishCategoryController {
       }
 
       createDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
-    } else {
+    }
+    else {
       createDishCategoryDto.image = '';
     }
 
@@ -69,6 +74,8 @@ export class DishCategoryController {
     type: [DishCategory],
   })
   async findAll(): Promise<DishCategory[]> {
+    console.log("dish-category.controller.ts - findAll()...");
+
     return this.dishCategoryService.findAll();
   }
 
