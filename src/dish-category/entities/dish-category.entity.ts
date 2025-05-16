@@ -21,6 +21,17 @@ export class DishCategory {
   @OneToMany(() => Dish, (dish) => dish.category)
   dishes: Dish[];
 
+/*
   @Column({ nullable: true })
   image: string;
+*/
+
+  @Column({ type: 'bytea' })
+  categoryImage: Buffer;
+
+  @Column()
+  filename: string;
+
+  @Column()
+  mimetype: string;
 }

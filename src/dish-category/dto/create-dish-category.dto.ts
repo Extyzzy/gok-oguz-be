@@ -16,8 +16,10 @@ export class CreateDishCategoryDto {
   @IsString()
   @IsNotEmpty()
   name_ru: string;
+}
 
+/*
   @IsString()
   @IsOptional()
   image?: string;
-}
+*/

@@ -28,12 +28,16 @@ import {
 } from '@nestjs/swagger';
 import { DishCategory } from './entities/dish-category.entity';
 import { Dish } from '@app/dish/entities/dish.entity';
+import { Multer } from 'multer';
 
 @ApiTags('dish-categories')
 @Controller('dish-category')
 export class DishCategoryController {
+  //----------------------------------------------------------------------
   constructor(private readonly dishCategoryService: DishCategoryService) {}
+  //----------------------------------------------------------------------
 
+  //----------------------------------------------------------------------
   @Post()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
@@ -42,13 +46,14 @@ export class DishCategoryController {
   @ApiConsumes('multipart/form-data')
   async create(
     @Body() createDishCategoryDto: CreateDishCategoryDto,
-    @UploadedFile() file?: Express.Multer.File,
-  ): Promise<DishCategory> {
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<DishCategory|null> {
       console.log("dish-category.controller.ts - create()...");
       console.log("dish-category.controller.ts - create() - createDishCategoryDto: ", createDishCategoryDto);
       console.log("dish-category.controller.ts - create() - file.filename: ", file?.filename);
 
-      if (file) {
+/*
+    if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
 
       if (!allowedMimeTypes.includes(file.mimetype)) {
@@ -62,10 +67,13 @@ export class DishCategoryController {
     else {
       createDishCategoryDto.image = '';
     }
+*/
 
-    return this.dishCategoryService.create(createDishCategoryDto);
+    return this.dishCategoryService.create(createDishCategoryDto, file);
   }
+  //----------------------------------------------------------------------
 
+  //----------------------------------------------------------------------
   @Get()
   @ApiOperation({ summary: 'Get all categories' })
   @ApiResponse({
@@ -78,7 +86,9 @@ export class DishCategoryController {
 
     return this.dishCategoryService.findAll();
   }
+  //----------------------------------------------------------------------
 
+  //----------------------------------------------------------------------
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get category by ID' })
@@ -88,12 +98,16 @@ export class DishCategoryController {
   async findOne(@Param('id') id: string): Promise<DishCategory> {
     return this.dishCategoryService.findOne(+id);
   }
+  //----------------------------------------------------------------------
 
+  //----------------------------------------------------------------------
   @Get('public/:slug/dishes')
   async findDishedByCategorySlug(@Param('slug') slug: string): Promise<Dish[]> {
     return this.dishCategoryService.findDishesBySlug(slug);
   }
+  //----------------------------------------------------------------------
 
+  //----------------------------------------------------------------------
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
@@ -113,14 +127,18 @@ export class DishCategoryController {
         throw new BadRequestException('Only JPEG or PNG images are allowed');
       }
 
-      updateDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
+
+      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      // updateDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
     }
 
     await this.dishCategoryService.update(+id, updateDishCategoryDto);
 
     return this.dishCategoryService.findOne(+id);
   }
+  //----------------------------------------------------------------------
 
+  //----------------------------------------------------------------------
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -131,4 +149,5 @@ export class DishCategoryController {
   async remove(@Param('id') id: string): Promise<void> {
     return this.dishCategoryService.remove(+id);
   }
+  //----------------------------------------------------------------------
 }
