@@ -40,9 +40,11 @@ export class CreateDishDto {
   @Transform(({ value }: { value: string }) => parseFloat(value))
   weight: number;
 
+/*
   @IsString()
   @IsOptional()
   image?: string;
+*/
 
   @IsNumber()
   @IsNotEmpty()

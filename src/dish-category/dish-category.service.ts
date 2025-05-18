@@ -25,15 +25,15 @@ export class DishCategoryService {
 
   //region: create
   //----------------------------------------------------------------------
-  create(createDishCategoryDto: CreateDishCategoryDto, file: Express.Multer.File) {
+  create(createDishCategoryDto: CreateDishCategoryDto, file?: Express.Multer.File) {
       console.log("dish-category.service.ts - create()...");
       console.log("dish-category.service.ts - create() - createDishCategoryDto:", createDishCategoryDto);
-      console.log("dish-category.service.ts - create() - file", file);
+      console.log("dish-category.service.ts - create() - file.originalname", file?.originalname);
 
     const dishCategory = this.dishCategoryRepository.create(
       createDishCategoryDto,
     );
-    console.log("dish-category.service.ts - create() - dishCategory: ", dishCategory);
+    console.log("dish-category.service.ts - create() - dishCategory(1): ", dishCategory);
 
 /*
     const newRecord = this.dishCategoryRepository.create({
@@ -55,13 +55,13 @@ export class DishCategoryService {
     // const ret =  this.dishCategoryRepository.save(newRecord);
 
     // return ret;
+    if (file) {
+      dishCategory.categoryImage = file?.buffer;
+      dishCategory.filename = file?.originalname;
+      dishCategory.mimetype = file?.mimetype;
+      console.log("dish-category.service.ts - create() - dishCategory(2): ", dishCategory);
+    }
 
-    dishCategory.categoryImage = file.buffer;
-    // dishCategory.categoryImage = Buffer.from('Пример изображения', 'utf-8');
-    dishCategory.filename = file.originalname;
-    dishCategory.mimetype = file.mimetype;
-
-    console.log("dish-category.service.ts - create() - dishCategory: ", dishCategory);
 
     const ret = this.dishCategoryRepository.save(dishCategory);
     // return "ok";

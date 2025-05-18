@@ -41,11 +41,13 @@ export class DishCategoryController {
   //region: @Post() done
   //----------------------------------------------------------------------
   @Post()
+  //region: @Post()-decoration
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
   @ApiOperation({ summary: 'Create a new dish' })
   @ApiResponse({ status: 201, description: 'Dish created', type: DishCategory })
   @ApiConsumes('multipart/form-data')
+  //endregion: @Post()-decoration
   async create(
     @Body() createDishCategoryDto: CreateDishCategoryDto,
     @UploadedFile() file: Express.Multer.File,
@@ -158,7 +160,7 @@ export class DishCategoryController {
   //----------------------------------------------------------------------
   //endregion
 
-  //region: @Delete(':id')
+  //region: @Delete(':id') done
   //----------------------------------------------------------------------
   @Delete(':id')
   @UseGuards(JwtAuthGuard)

@@ -33,22 +33,32 @@ import { DishCategoryService } from '@app/dish-category/dish-category.service';
 @ApiTags('dishes')
 @Controller('dishes')
 export class DishController {
+
+  //region: constructor(
   constructor(
     private readonly dishService: DishService,
     private readonly dishCategoryService: DishCategoryService,
   ) {}
+  //endregion
 
+  //region: @Post() done
   @Post()
+  //region: @Post()-decoration
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
   @ApiOperation({ summary: 'Create a new dish' })
   @ApiResponse({ status: 201, description: 'Dish created', type: Dish })
   @ApiConsumes('multipart/form-data')
+  //endregion: @Post()-decoration
   async create(
     @Body() createDishDto: CreateDishDto,
-    @UploadedFile() file?: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<Dish> {
     console.log("dish.controller.ts - create()...");
+    console.log("dish.controller.ts - create() - createDishDto(1-???): ", createDishDto);
+    console.log("dish.controller.ts - create() - file.originalname: ", file?.originalname);
+
+/*
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png'];
       if (!allowedMimeTypes.includes(file.mimetype)) {
@@ -59,11 +69,15 @@ export class DishController {
     } else {
       createDishDto.image = '';
     }
+*/
 
     await this.dishCategoryService.findOne(createDishDto.category_id);
-    return this.dishService.create(createDishDto);
+    console.log("dish.controller.ts - create() - createDishDto(2-???): ", createDishDto);
+    return this.dishService.create(createDishDto, file);
   }
+  //endregion
 
+  //region: @Put(':id') done
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
@@ -77,18 +91,26 @@ export class DishController {
     @Body() updateDishDto: UpdateDishDto,
     @UploadedFile() file?: Express.Multer.File, // <-- optional file
   ): Promise<Dish> {
+    console.log("dish.controller.ts - update()...");
+    console.log("dish.controller.ts - update() - updateDishDto: ", updateDishDto);
+    console.log("dish.controller.ts - update() - file.originalname: ", file?.originalname);
+
+/*
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png'];
       if (!allowedMimeTypes.includes(file.mimetype)) {
         throw new BadRequestException('Only JPEG or PNG images are allowed');
       }
 
-      updateDishDto.image = `/uploads/dishes/${file.filename}`;
+      // updateDishDto.image = `/uploads/dishes/${file.filename}`;
     }
+*/
 
-    return this.dishService.update(+id, updateDishDto);
+    return this.dishService.update(+id, updateDishDto, file);
   }
+  //endregion
 
+  //region: @Get() done
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get all dishes for admin' })
@@ -96,7 +118,9 @@ export class DishController {
   async findAll(): Promise<Dish[]> {
     return this.dishService.findAll();
   }
+  //endregion
 
+  //region: @Get('/public') done
   @Get('/public')
   @ApiOperation({ summary: 'Get all dishes for main site' })
   @ApiResponse({
@@ -110,7 +134,9 @@ export class DishController {
     const language = (request.headers as any)?.lang || 'ro';
     return this.dishService.findAllPublic(language.substring(0, 2));
   }
+  //endregion
 
+  //region: @Get(':id') done
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get dish by ID' })
@@ -120,7 +146,9 @@ export class DishController {
   async findOne(@Param('id') id: string): Promise<Dish> {
     return this.dishService.findOne(+id);
   }
+  //endregion
 
+  //region: @Get('category/:categoryId')
   @Get('category/:categoryId')
   @ApiOperation({ summary: 'Get dishes by category ID' })
   @ApiParam({ name: 'categoryId', type: Number, description: 'Category ID' })
@@ -134,7 +162,9 @@ export class DishController {
   ): Promise<Dish[]> {
     return this.dishService.findByCategoryId(+categoryId);
   }
+  //endregion
 
+  //region: @Delete(':id') done
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -145,4 +175,7 @@ export class DishController {
   async remove(@Param('id') id: string): Promise<void> {
     return this.dishService.remove(+id);
   }
+  //endregion
 }
+//region:
+//endregion

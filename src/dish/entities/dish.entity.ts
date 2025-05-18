@@ -39,8 +39,10 @@ export class Dish {
   @Column()
   weight: number;
 
+/*
   @Column({ nullable: true })
   image: string;
+*/
 
   @ManyToOne(() => DishCategory, (category) => category.dishes)
   @JoinColumn({ name: 'category_id' })
@@ -48,4 +50,13 @@ export class Dish {
 
   @Column({ nullable: true })
   category_id: number;
+
+  @Column({ type: 'bytea' })
+  categoryImage: Buffer;
+
+  @Column()
+  filename: string;
+
+  @Column()
+  mimetype: string;
 }
