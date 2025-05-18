@@ -1,4 +1,4 @@
-//region
+
 import {
   Controller,
   Get,
@@ -34,52 +34,21 @@ import { Multer } from 'multer';
 @ApiTags('dish-categories')
 @Controller('dish-category')
 export class DishCategoryController {
-  //----------------------------------------------------------------------
   constructor(private readonly dishCategoryService: DishCategoryService) {}
-  //----------------------------------------------------------------------
 
-  //region: @Post() done
-  //----------------------------------------------------------------------
   @Post()
-  //region: @Post()-decoration
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
   @ApiOperation({ summary: 'Create a new dish' })
   @ApiResponse({ status: 201, description: 'Dish created', type: DishCategory })
   @ApiConsumes('multipart/form-data')
-  //endregion: @Post()-decoration
   async create(
     @Body() createDishCategoryDto: CreateDishCategoryDto,
     @UploadedFile() file: Express.Multer.File,
   ): Promise<DishCategory|null> {
-      console.log("dish-category.controller.ts - create()...");
-      console.log("\tdish-category.controller.ts - create() - createDishCategoryDto: ", createDishCategoryDto);
-      console.log("\tdish-category.controller.ts - create() - file.filename: ", file?.filename);
-
- /*   if (file) {
-      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
-
-      if (!allowedMimeTypes.includes(file.mimetype)) {
-        throw new BadRequestException(
-          'Only JPEG or PNG images or SVG are allowed',
-        );
-      }
-
-      createDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
-    }
-    else {
-      createDishCategoryDto.image = '';
-    }
-*/
-    console.log("\tdish-category.controller.ts - create() - createDishCategoryDto: ", createDishCategoryDto);
-
     return this.dishCategoryService.create(createDishCategoryDto, file);
   }
-  //----------------------------------------------------------------------
-  //endregion
 
-  //region: @Get() done
-  //----------------------------------------------------------------------
   @Get()
   @ApiOperation({ summary: 'Get all categories' })
   @ApiResponse({
@@ -88,15 +57,9 @@ export class DishCategoryController {
     type: [DishCategory],
   })
   async findAll(): Promise<DishCategory[]> {
-    console.log("dish-category.controller.ts - findAll()...");
-
     return this.dishCategoryService.findAll();
   }
-  //----------------------------------------------------------------------
-  //endregion
 
-  //region: @Get(':id') done
-  //----------------------------------------------------------------------
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get category by ID' })
@@ -104,24 +67,14 @@ export class DishCategoryController {
   @ApiResponse({ status: 200, description: 'Dish found', type: DishCategory })
   @ApiResponse({ status: 404, description: 'Dish not found' })
   async findOne(@Param('id') id: string): Promise<DishCategory> {
-      console.log("dish-category.controller.ts - findOne() - id: ", id);
     return this.dishCategoryService.findOne(+id);
   }
-  //----------------------------------------------------------------------
-  //endregion
 
-  //region: @Get('public/:slug/dishes')
-  //----------------------------------------------------------------------
   @Get('public/:slug/dishes')
   async findDishedByCategorySlug(@Param('slug') slug: string): Promise<Dish[]> {
-      console.log("dish-category.controller.ts - findDishedByCategorySlug() - slug: ", slug);
     return this.dishCategoryService.findDishesBySlug(slug);
   }
-  //----------------------------------------------------------------------
-  //endregion
 
-  //region: @Put(':id') done
-  //----------------------------------------------------------------------
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('file', multerConfig))
@@ -135,33 +88,10 @@ export class DishCategoryController {
     @Body() updateDishCategoryDto: UpdateDishCategoryDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<DishCategory> {
-      console.log("dish-category.controller.ts - update()...");
-      console.log("\tdish-category.controller.ts - update() - id: ", id);
-      console.log("\tdish-category.controller.ts - update() - updateDishCategoryDto: ", updateDishCategoryDto);
-      console.log("\tdish-category.controller.ts - update() - file.originalname: ", file?.originalname);
-
-/*
-    if (file) {
-
-      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
-      if (!allowedMimeTypes.includes(file.mimetype)) {
-        throw new BadRequestException('Only JPEG or PNG images are allowed');
-      }
-
-      //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // updateDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
-    }
-*/
-
     await this.dishCategoryService.update(+id, updateDishCategoryDto, file);
-
     return this.dishCategoryService.findOne(+id);
   }
-  //----------------------------------------------------------------------
-  //endregion
 
-  //region: @Delete(':id') done
-  //----------------------------------------------------------------------
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -170,12 +100,6 @@ export class DishCategoryController {
   @ApiResponse({ status: 204, description: 'Dish deleted' })
   @ApiResponse({ status: 404, description: 'Dish not found' })
   async remove(@Param('id') id: string): Promise<void> {
-      console.log("dish-category.controller.ts - remove()...");
-      console.log("\tdish-category.controller.ts - remove() - id: ", id);
     return this.dishCategoryService.remove(+id);
   }
-  //----------------------------------------------------------------------
-  // endregion
 }
-//region:
-//endregion

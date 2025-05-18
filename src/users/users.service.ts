@@ -14,19 +14,15 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-      console.log("users.service.ts - create() - createUserDto: ", createUserDto);
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-      console.log("users.service.ts - create() - hashedPassword: ", hashedPassword);
     const user = this.usersRepository.create({
       ...createUserDto,
       password: hashedPassword,
     });
-    console.log("users.service.ts - create() - user: ", user);
     return this.usersRepository.save(user);
   }
 
   async findAll(): Promise<User[]> {
-    console.log("users.service.ts - findAll()...");
     return this.usersRepository.find();
   }
 
@@ -39,15 +35,11 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    console.log(`users.service.ts - findByEmail() - email: '${email}'`);
     const ret = await this.usersRepository.findOne({ where: { email } });
-    console.log(`users.service.ts - findByEmail() - ret: '${ret}'`);
     return ret;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    console.log("users.service.ts - update()...");
-
     const user = await this.findOne(id);
 
     if (updateUserDto.password) {

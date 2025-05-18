@@ -42,7 +42,6 @@ export class AuthController {
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    console.log("auth.controller.ts - login() - loginDto: ", loginDto);
     const user = await this.authService.validateUser(
       loginDto.email,
       loginDto.password,
