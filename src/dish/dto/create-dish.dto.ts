@@ -48,4 +48,9 @@ export class CreateDishDto {
   @IsNotEmpty()
   @Transform(({ value }: { value: string }) => parseFloat(value))
   category_id: number;
+
+  @IsNumber()
+  @IsOptional()
+  @Transform(({ value }: { value: string }) => (value ? parseFloat(value) : 0))
+  orderNumber?: number;
 }

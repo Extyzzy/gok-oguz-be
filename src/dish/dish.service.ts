@@ -20,14 +20,14 @@ export class DishService {
   async findAll(): Promise<Dish[]> {
     return await this.dishRepository.find({
       relations: ['category'],
-      order: { id: 'ASC' },
+      order: { orderNumber: 'ASC', id: 'ASC' },
     });
   }
 
   async findAllPublic(language: string) {
     const dishes = await this.dishRepository.find({
       relations: ['category'],
-      order: { id: 'ASC' },
+      order: { orderNumber: 'ASC', id: 'ASC' },
     });
 
     return dishes.map((dish) => ({
@@ -67,7 +67,7 @@ export class DishService {
     return await this.dishRepository.find({
       where: { category_id: categoryId },
       relations: ['category'],
-      order: { id: 'ASC' },
+      order: { orderNumber: 'ASC', id: 'ASC' },
     });
   }
 

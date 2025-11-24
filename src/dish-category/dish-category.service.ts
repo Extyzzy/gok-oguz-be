@@ -25,14 +25,14 @@ export class DishCategoryService {
   async findAll() {
     return await this.dishCategoryRepository.find({
       relations: ['dishes'],
-      order: { id: 'ASC' },
+      order: { orderNumber: 'ASC', id: 'ASC' },
     });
   }
 
   async findDishesBySlug(slug: string) {
     return this.dishRepository.find({
       where: { category: { slug } },
-      order: { slug: 'ASC' },
+      order: { orderNumber: 'ASC', id: 'ASC' },
     });
   }
 

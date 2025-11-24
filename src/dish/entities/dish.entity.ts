@@ -48,4 +48,7 @@ export class Dish {
 
   @Column({ nullable: true })
   category_id: number;
+
+  @Column({ type: 'int', default: 0 })
+  orderNumber: number;
 }

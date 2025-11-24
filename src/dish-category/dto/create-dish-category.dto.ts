@@ -20,4 +20,7 @@ export class CreateDishCategoryDto {
   @IsString()
   @IsOptional()
   image?: string;
+
+  @IsOptional()
+  orderNumber?: number;
 }

@@ -100,6 +100,9 @@ export class DishCategoryController {
     @Body() updateDishCategoryDto: UpdateDishCategoryDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<DishCategory> {
+    console.info('aloalo');
+    console.info(file);
+
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
       if (!allowedMimeTypes.includes(file.mimetype)) {

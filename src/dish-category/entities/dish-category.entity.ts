@@ -23,4 +23,7 @@ export class DishCategory {
 
   @Column({ nullable: true })
   image: string;
+
+  @Column({ type: 'int', default: 0 })
+  orderNumber: number;
 }
