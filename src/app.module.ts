@@ -6,6 +6,7 @@ import { DishCategoryModule } from '@app/dish-category/dish-category.module';
 import { UsersModule } from '@app/users/users.module';
 import { AuthModule } from '@app/auth/auth.module';
 import { DatabaseSeedModule } from '@app/database/seed.module';
+import { PageContentModule } from '@app/page-content/page-content.module';
 import { typeOrmConfig } from '@app/config/typeorm';
 
 @Module({
@@ -17,6 +18,7 @@ import { typeOrmConfig } from '@app/config/typeorm';
     AuthModule,
     ConsoleModule,
     DatabaseSeedModule,
+    PageContentModule,
   ],
 })
 export class AppModule {}
