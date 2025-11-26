@@ -1,3 +1,4 @@
+
 import {
   Controller,
   Get,
@@ -28,6 +29,7 @@ import {
 } from '@nestjs/swagger';
 import { DishCategory } from './entities/dish-category.entity';
 import { Dish } from '@app/dish/entities/dish.entity';
+import { Multer } from 'multer';
 
 @ApiTags('dish-categories')
 @Controller('dish-category')
@@ -42,23 +44,9 @@ export class DishCategoryController {
   @ApiConsumes('multipart/form-data')
   async create(
     @Body() createDishCategoryDto: CreateDishCategoryDto,
-    @UploadedFile() file?: Express.Multer.File,
-  ): Promise<DishCategory> {
-    if (file) {
-      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
-
-      if (!allowedMimeTypes.includes(file.mimetype)) {
-        throw new BadRequestException(
-          'Only JPEG or PNG images or SVG are allowed',
-        );
-      }
-
-      createDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
-    } else {
-      createDishCategoryDto.image = '';
-    }
-
-    return this.dishCategoryService.create(createDishCategoryDto);
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<DishCategory|null> {
+    return this.dishCategoryService.create(createDishCategoryDto, file);
   }
 
   @Get()
@@ -100,9 +88,6 @@ export class DishCategoryController {
     @Body() updateDishCategoryDto: UpdateDishCategoryDto,
     @UploadedFile() file?: Express.Multer.File,
   ): Promise<DishCategory> {
-    console.info('aloalo');
-    console.info(file);
-
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
       if (!allowedMimeTypes.includes(file.mimetype)) {

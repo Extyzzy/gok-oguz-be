@@ -7,13 +7,20 @@ import { UpdateDishDto } from '@app/dish/dto/update-dish.dto';
 
 @Injectable()
 export class DishService {
+
   constructor(
     @InjectRepository(Dish)
     private readonly dishRepository: Repository<Dish>,
   ) {}
 
-  async create(createDishDto: CreateDishDto): Promise<Dish> {
+  async create(createDishDto: CreateDishDto, file: Express.Multer.File): Promise<Dish> {
+
     const dish = this.dishRepository.create(createDishDto);
+
+    dish.categoryImage = file.buffer;
+    dish.filename = file.originalname;
+    dish.mimetype = file.mimetype;
+
     return await this.dishRepository.save(dish);
   }
 
@@ -50,6 +57,7 @@ export class DishService {
     return entity[localizedField] || entity[field] || '';
   }
 
+
   async findOne(id: number): Promise<Dish> {
     const dish = await this.dishRepository.findOne({
       where: { id },
@@ -71,7 +79,8 @@ export class DishService {
     });
   }
 
-  async update(id: number, updateDishDto: UpdateDishDto): Promise<Dish> {
+  async update(id: number, updateDishDto: UpdateDishDto, file?: Express.Multer.File): Promise<Dish> {
+
     const dish = await this.dishRepository.preload({
       id: id,
       ...updateDishDto,
@@ -79,6 +88,11 @@ export class DishService {
 
     if (!dish) {
       throw new NotFoundException(`Dish with ID ${id} not found`);
+    }
+    if (file) {
+      dish.categoryImage = file.buffer;
+      dish.filename = file.originalname;
+      dish.mimetype = file.mimetype;
     }
 
     return await this.dishRepository.save(dish);

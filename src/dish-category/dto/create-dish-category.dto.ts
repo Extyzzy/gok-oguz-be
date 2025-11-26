@@ -24,3 +24,4 @@ export class CreateDishCategoryDto {
   @IsOptional()
   orderNumber?: number;
 }
+

@@ -23,9 +23,10 @@ import { User } from '@app/users/entities/user.entity';
 @ApiTags('users')
 @Controller('users')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })

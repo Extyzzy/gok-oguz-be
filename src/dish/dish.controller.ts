@@ -46,21 +46,11 @@ export class DishController {
   @ApiConsumes('multipart/form-data')
   async create(
     @Body() createDishDto: CreateDishDto,
-    @UploadedFile() file?: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File,
   ): Promise<Dish> {
-    if (file) {
-      const allowedMimeTypes = ['image/jpeg', 'image/png'];
-      if (!allowedMimeTypes.includes(file.mimetype)) {
-        throw new BadRequestException('Only JPEG or PNG images are allowed');
-      }
-
-      createDishDto.image = `/uploads/dishes/${file.filename}`;
-    } else {
-      createDishDto.image = '';
-    }
 
     await this.dishCategoryService.findOne(createDishDto.category_id);
-    return this.dishService.create(createDishDto);
+    return this.dishService.create(createDishDto, file);
   }
 
   @Put(':id')
@@ -76,17 +66,9 @@ export class DishController {
     @Body() updateDishDto: UpdateDishDto,
     @UploadedFile() file?: Express.Multer.File, // <-- optional file
   ): Promise<Dish> {
-    if (file) {
-      const allowedMimeTypes = ['image/jpeg', 'image/png'];
-      if (!allowedMimeTypes.includes(file.mimetype)) {
-        throw new BadRequestException('Only JPEG or PNG images are allowed');
-      }
-
-      updateDishDto.image = `/uploads/dishes/${file.filename}`;
-    }
-
-    return this.dishService.update(+id, updateDishDto);
+    return this.dishService.update(+id, updateDishDto, file);
   }
+
 
   @Get()
   @UseGuards(JwtAuthGuard)
@@ -104,7 +86,6 @@ export class DishController {
     type: [Dish],
   })
   async findAllPublic(@Req() request: Request): Promise<Dish[]> {
-    console.info(request.headers);
     const language = (request.headers as any)?.lang || 'ro';
     return this.dishService.findAllPublic(language.substring(0, 2));
   }
@@ -144,3 +125,4 @@ export class DishController {
     return this.dishService.remove(+id);
   }
 }
+
