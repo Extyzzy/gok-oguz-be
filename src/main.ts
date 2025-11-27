@@ -1,4 +1,3 @@
-// import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -6,22 +5,16 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import { join } from 'path';
 import { ValidationPipe } from '@nestjs/common';
-import { config } from 'dotenv';
-
-// Load environment variables before app initialization
-config();
-
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT ?? 4000;
 
   app.enableCors({
-    origin: true, // Allow all origins
+    origin: [process.env.CLIENT_URL],
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Lang'],
-    exposedHeaders: ['Set-Cookie'],
   });
 
   app.use(cookieParser());
