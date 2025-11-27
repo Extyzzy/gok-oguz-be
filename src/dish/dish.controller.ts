@@ -46,8 +46,14 @@ export class DishController {
   @ApiConsumes('multipart/form-data')
   async create(
     @Body() createDishDto: CreateDishDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file?: Express.Multer.File,
   ): Promise<Dish> {
+    if (file) {
+      const allowedMimeTypes = ['image/jpeg', 'image/png'];
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new BadRequestException('Only JPEG or PNG images are allowed');
+      }
+    }
 
     await this.dishCategoryService.findOne(createDishDto.category_id);
     return this.dishService.create(createDishDto, file);
@@ -66,9 +72,15 @@ export class DishController {
     @Body() updateDishDto: UpdateDishDto,
     @UploadedFile() file?: Express.Multer.File, // <-- optional file
   ): Promise<Dish> {
+    if (file) {
+      const allowedMimeTypes = ['image/jpeg', 'image/png'];
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new BadRequestException('Only JPEG or PNG images are allowed');
+      }
+    }
+
     return this.dishService.update(+id, updateDishDto, file);
   }
-
 
   @Get()
   @UseGuards(JwtAuthGuard)
@@ -125,4 +137,3 @@ export class DishController {
     return this.dishService.remove(+id);
   }
 }
-

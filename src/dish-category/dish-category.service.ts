@@ -1,4 +1,3 @@
-
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -9,7 +8,6 @@ import { Dish } from '@app/dish/entities/dish.entity';
 
 @Injectable()
 export class DishCategoryService {
-
   constructor(
     @InjectRepository(DishCategory)
     private readonly dishCategoryRepository: Repository<DishCategory>,
@@ -17,20 +15,21 @@ export class DishCategoryService {
     private readonly dishRepository: Repository<Dish>,
   ) {}
 
-  create(createDishCategoryDto: CreateDishCategoryDto, file?: Express.Multer.File) {
-
+  create(
+    createDishCategoryDto: CreateDishCategoryDto,
+    file?: Express.Multer.File,
+  ) {
     const dishCategory = this.dishCategoryRepository.create(
       createDishCategoryDto,
     );
 
     if (file) {
-      dishCategory.categoryImage = file?.buffer;
-      dishCategory.filename = file?.originalname;
-      dishCategory.mimetype = file?.mimetype;
+      dishCategory.image = `/uploads/dishes/${file.filename}`;
+    } else if (!dishCategory.image) {
+      dishCategory.image = '';
     }
 
     return this.dishCategoryRepository.save(dishCategory);
-
   }
   async findAll() {
     return await this.dishCategoryRepository.find({
@@ -39,14 +38,12 @@ export class DishCategoryService {
     });
   }
   async findDishesBySlug(slug: string) {
-
     return this.dishRepository.find({
       where: { category: { slug } },
       order: { orderNumber: 'ASC', id: 'ASC' },
     });
   }
   async findOne(id: number) {
-
     const dishCategory = await this.dishCategoryRepository.findOne({
       where: { id },
     });
@@ -57,8 +54,11 @@ export class DishCategoryService {
 
     return dishCategory;
   }
-  async update(id: number, updateDishCategoryDto: UpdateDishCategoryDto, file?: Express.Multer.File) {
-
+  async update(
+    id: number,
+    updateDishCategoryDto: UpdateDishCategoryDto,
+    file?: Express.Multer.File,
+  ) {
     const dishCategory = await this.dishCategoryRepository.preload({
       id: id,
       ...updateDishCategoryDto,
@@ -69,12 +69,10 @@ export class DishCategoryService {
     }
 
     if (file) {
-      dishCategory.categoryImage = file.buffer;
-      dishCategory.filename = file.originalname;
-      dishCategory.mimetype = file.mimetype;
+      dishCategory.image = `/uploads/dishes/${file.filename}`;
     }
 
-    return await this.dishCategoryRepository.update(id, dishCategory);
+    return await this.dishCategoryRepository.save(dishCategory);
   }
 
   async remove(id: number) {

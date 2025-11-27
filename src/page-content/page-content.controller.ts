@@ -33,7 +33,11 @@ export class PageContentController {
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get page content for admin' })
-  @ApiResponse({ status: 200, description: 'Page content found', type: PageContent })
+  @ApiResponse({
+    status: 200,
+    description: 'Page content found',
+    type: PageContent,
+  })
   async findOne(): Promise<PageContent> {
     return this.pageContentService.findOne();
   }
@@ -52,14 +56,18 @@ export class PageContentController {
   @ApiOperation({ summary: 'Upload an image for page content' })
   @ApiConsumes('multipart/form-data')
   @ApiResponse({ status: 200, description: 'Image uploaded successfully' })
-  async uploadImage(@UploadedFile() file?: Express.Multer.File): Promise<{ url: string }> {
+  async uploadImage(
+    @UploadedFile() file?: Express.Multer.File,
+  ): Promise<{ url: string }> {
     if (!file) {
       throw new BadRequestException('No file provided');
     }
 
     const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
     if (!allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException('Only JPEG, PNG, or WebP images are allowed');
+      throw new BadRequestException(
+        'Only JPEG, PNG, or WebP images are allowed',
+      );
     }
 
     return { url: `/uploads/page-content/${file.filename}` };
@@ -68,17 +76,23 @@ export class PageContentController {
   @Put()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Update page content' })
-  @ApiResponse({ status: 200, description: 'Page content updated', type: PageContent })
-  async update(@Body() updatePageContentDto: UpdatePageContentDto): Promise<PageContent> {
+  @ApiResponse({
+    status: 200,
+    description: 'Page content updated',
+    type: PageContent,
+  })
+  async update(
+    @Body() updatePageContentDto: UpdatePageContentDto,
+  ): Promise<PageContent> {
     try {
       return await this.pageContentService.update(updatePageContentDto);
     } catch (error) {
-      console.error('Error updating page content:', error);
+      const err = error as any;
+      console.error('Error updating page content:', err);
       throw new HttpException(
-        error.message || 'Failed to update page content',
-        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+        err?.message || 'Failed to update page content',
+        err?.status || HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 }
-

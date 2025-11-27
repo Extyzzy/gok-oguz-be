@@ -1,4 +1,3 @@
-
 import {
   Controller,
   Get,
@@ -44,8 +43,17 @@ export class DishCategoryController {
   @ApiConsumes('multipart/form-data')
   async create(
     @Body() createDishCategoryDto: CreateDishCategoryDto,
-    @UploadedFile() file: Express.Multer.File,
-  ): Promise<DishCategory|null> {
+    @UploadedFile() file?: Express.Multer.File,
+  ): Promise<DishCategory | null> {
+    if (file) {
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        throw new BadRequestException(
+          'Only JPEG, PNG, or SVG images are allowed',
+        );
+      }
+    }
+
     return this.dishCategoryService.create(createDishCategoryDto, file);
   }
 
@@ -91,13 +99,13 @@ export class DishCategoryController {
     if (file) {
       const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/svg+xml'];
       if (!allowedMimeTypes.includes(file.mimetype)) {
-        throw new BadRequestException('Only JPEG or PNG images are allowed');
+        throw new BadRequestException(
+          'Only JPEG, PNG, or SVG images are allowed',
+        );
       }
-
-      updateDishCategoryDto.image = `/uploads/dishes/${file.filename}`;
     }
 
-    await this.dishCategoryService.update(+id, updateDishCategoryDto);
+    await this.dishCategoryService.update(+id, updateDishCategoryDto, file);
 
     return this.dishCategoryService.findOne(+id);
   }
