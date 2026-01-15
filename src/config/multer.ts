@@ -26,10 +26,16 @@ export const multerConfig: MulterOptions = {
   },
 };
 */
-import * as multer from 'multer';
+import { diskStorage } from 'multer';
 
 export const multerConfig = {
-  storage: multer.memoryStorage(),
+  storage: diskStorage({
+    destination: './uploads/dishes',
+    filename: (req, file, cb) => {
+      const uniqueName = `${Date.now()}-${file.originalname}`;
+      cb(null, uniqueName);
+    },
+  }),
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB
   },
