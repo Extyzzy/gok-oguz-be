@@ -1,31 +1,37 @@
-import '../env.config.js';
-import 'reflect-metadata';
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DataSource } from 'typeorm';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
+import * as express from 'express';
+import { join } from 'path';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const dataSource = app.get(DataSource);
+  const port = process.env.PORT ?? 4000;
 
-  let dbName: string | undefined;
+  app.enableCors({
+    origin: [process.env.CLIENT_URL],
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Lang'],
+  });
 
-  if (process.env.POSTGRES_URL) {
-    try {
-      const dbUrl = new URL(process.env.POSTGRES_URL);
-      dbName = dbUrl.pathname.substring(1).split('?')[0]; // Получаем имя БД после "/"
-    } catch (error) {
-      console.error('❌ Ошибка парсинга POSTGRES_URL:', error);
-    }
-  }
+  app.use(cookieParser());
+  app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
 
-  if (dataSource.isInitialized) {
-    console.log(`✅ Подключение к PostgreSQL успешно установлено. Используется база данных: ${dbName}`);
-  } else {
-    console.error('❌ Ошибка подключения к PostgreSQL');
-  }
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
 
-  await app.listen(4000);
+  const config = new DocumentBuilder().setVersion('1.0').build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
+
+  await app.listen(port, '0.0.0.0');
 }
 bootstrap();

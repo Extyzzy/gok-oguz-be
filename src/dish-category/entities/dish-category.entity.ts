@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Dish } from '@app/dish/entities/dish.entity';
 
 @Entity()
 export class DishCategory {
@@ -6,23 +7,23 @@ export class DishCategory {
   id: number;
 
   @Column()
-  categoryName: string;
-
-  @Column({ type: 'bytea' })
-  categoryImage: Buffer;
+  slug: string;
 
   @Column()
-  filename: string;
+  name_en: string;
 
   @Column()
-  mimetype: string;
+  name_ro: string;
 
   @Column()
-  ro: string;
+  name_ru: string;
 
-  @Column()
-  ru: string;
+  @OneToMany(() => Dish, (dish) => dish.category)
+  dishes: Dish[];
 
-  @Column()
-  en: string;
+  @Column({ nullable: true })
+  image: string;
+
+  @Column({ type: 'int', default: 0 })
+  orderNumber: number;
 }

@@ -12,5 +12,4 @@ export class NonWorkingDays {
   //количество дней
   @Column()
   numOfDays: number;
-
 }
